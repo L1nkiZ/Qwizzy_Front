@@ -1,4 +1,4 @@
-# MG_SHOP Frontend - Guide pour Agents IA
+# Qwizzy Frontend - Guide pour Agents IA
 
 ## Stack Technique
 
