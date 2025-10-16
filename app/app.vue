@@ -4,6 +4,7 @@
 			<NuxtLayout>
 				<NuxtRouteAnnouncer />
 				<NuxtPage />
+				<DrawerPanelStack />
 			</NuxtLayout>
 		</UApp>
 	</Html>

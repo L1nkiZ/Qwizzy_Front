@@ -18,7 +18,6 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			baseApiURL: process.env.BASE_API_URL ?? "http://localhost:8080/api/v1",
-			nginx: !!process.env.NGINX,
 		},
 	},
 	css: ["~/assets/css/main.css"],
