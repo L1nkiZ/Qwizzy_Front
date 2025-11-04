@@ -2,11 +2,11 @@
 import type { AuthFormField } from "@nuxt/ui";
 
 useHead({
-	title: "Qwizzy - Connexion",
+	title: "Qwizzy - Inscription",
 	meta: [
 		{
 			name: "description",
-			content: "Connectez-vous à votre compte Qwizzy pour accéder à vos quiz.",
+			content: "Créez un compte pour accéder à vos scores et bien plus !",
 		},
 	],
 });
@@ -22,12 +22,6 @@ const fields = ref<AuthFormField[]>([
 		type: "password",
 		label: "Mot de passe",
 	},
-	{
-		name: "remember",
-		label: "Remember me",
-		type: "checkbox",
-		defaultValue: true,
-	},
 ]);
 </script>
 
@@ -35,16 +29,16 @@ const fields = ref<AuthFormField[]>([
 	<div class="flex flex-1 items-center justify-center">
 		<UPageCard class="w-full max-w-md">
 			<UAuthForm
-				title="Connexion"
-				description="Entrez vos identifiants pour accéder à votre compte."
-				icon="i-lucide-user"
+				title="Inscription"
+				description="Créez un compte pour accéder à vos scores et bien plus !"
+				icon="i-lucide-user-round-plus"
 				:fields="fields"
 				class="max-w-md"
 			>
 				<template #description>
-					Vous n'avez pas de compte ?
-					<ULink to="/inscription" class="text-primary font-medium">
-						Inscrivez-vous
+					Vous avez déjà un compte ?
+					<ULink to="/connexion" class="text-primary font-medium">
+						Connectez-vous
 					</ULink>
 				</template>
 			</UAuthForm>
