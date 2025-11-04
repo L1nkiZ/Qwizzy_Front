@@ -26,7 +26,7 @@ export interface UseErrorToastOptions {
 export function useErrorToast(options: UseErrorToastOptions = {}) {
 	const { error, title, description, icon, actions, retry } = options;
 	const contactSupport = options.contactSupport ?? true;
-	const { $i18n } = useNuxtApp();
+	const { $i18n } = useNuxtApp() as any;
 	const t = $i18n.t;
 
 	let actionButtons: UseErrorToastOptions["actions"] = actions ?? [];
