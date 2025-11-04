@@ -1,4 +1,3 @@
-cd front
 pnpm exec lint-staged
 pnpm lint --fix --cache
 pnpm typecheck
