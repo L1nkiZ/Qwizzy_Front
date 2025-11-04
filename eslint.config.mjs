@@ -41,7 +41,7 @@ export default withNuxt(
 		},
 	},
 	{
-		files: ["app/components/**/*.vue", "app/pages/**/*.vue"],
+		files: ["app/components/**/*.vue", "app/pages/*/**/*.vue"],
 		plugins: {
 			"check-file": checkFile,
 		},

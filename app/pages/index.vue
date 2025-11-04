@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-	<h1>Hemlo</h1>
+	<h1>Index</h1>
 </template>

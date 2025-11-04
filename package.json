@@ -11,7 +11,7 @@
 		"preview": "nuxt preview",
 		"preinstall": "npx only-allow pnpm",
 		"postinstall": "nuxt prepare",
-		"prepare": "cd .. && husky front/.husky || true",
+		"prepare": "husky || true",
 		"test": "vitest",
 		"typecheck": "nuxt typecheck",
 		"check-quality": "pnpm lint && pnpm typecheck && pnpm format --check ."
