@@ -5,42 +5,29 @@ const route = useRoute();
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
 	{
-		label: "Questionnaires",
-		to: "/questionnaires/",
-		active: route.path.startsWith("/questionnaires/"),
+		label: "Quizs",
+		to: "/quizs/",
+		active: route.path.startsWith("/quizs/"),
 	},
 	{
-		label: "Components",
-		to: "/docs/components",
-		active: route.path.startsWith("/docs/components"),
-	},
-	{
-		label: "Figma",
-		to: "https://go.nuxt.com/figma-ui",
-		target: "_blank",
-	},
-	{
-		label: "Releases",
-		to: "https://github.com/nuxt/ui/releases",
-		target: "_blank",
+		label: "Quiz du jour",
+		to: "/quiz-du-jour/",
+		active: route.path.startsWith("/quiz-du-jour/"),
 	},
 ]);
 
 const footerItems: NavigationMenuItem[] = [
 	{
-		label: "Figma Kit",
-		to: "https://go.nuxt.com/figma-ui",
-		target: "_blank",
+		label: "Mentions légales",
+		to: "/mentions-légales",
 	},
 	{
-		label: "Playground",
-		to: "https://stackblitz.com/edit/nuxt-ui",
-		target: "_blank",
+		label: "Politique de confidentialité",
+		to: "/politique-de-confidentialite",
 	},
 	{
-		label: "Releases",
-		to: "https://github.com/nuxt/ui/releases",
-		target: "_blank",
+		label: "Contact",
+		to: "/contact",
 	},
 ];
 </script>
@@ -48,16 +35,21 @@ const footerItems: NavigationMenuItem[] = [
 <template>
 	<UHeader>
 		<template #title>
-			<Logo class="h-6 w-auto" />
+			<AppLogo class="h-6 w-auto" />
 		</template>
 		<UNavigationMenu :items="headerItems" />
 		<template #right>
-			<UButton icon="i-lucide-user" color="neutral" variant="ghost"></UButton>
+			<UButton
+				icon="i-lucide-user"
+				color="neutral"
+				variant="ghost"
+				to="/compte"
+			></UButton>
 			<UColorModeButton />
 		</template>
 	</UHeader>
 
-	<div class="flex-1">
+	<div class="flex flex-1 flex-col">
 		<slot></slot>
 	</div>
 
@@ -71,26 +63,10 @@ const footerItems: NavigationMenuItem[] = [
 		<UNavigationMenu :items="footerItems" variant="link" />
 		<template #right>
 			<UButton
-				icon="i-simple-icons-discord"
-				color="neutral"
-				variant="ghost"
-				to="https://go.nuxt.com/discord"
-				target="_blank"
-				aria-label="Discord"
-			/>
-			<UButton
-				icon="i-simple-icons-x"
-				color="neutral"
-				variant="ghost"
-				to="https://go.nuxt.com/x"
-				target="_blank"
-				aria-label="X"
-			/>
-			<UButton
 				icon="i-simple-icons-github"
 				color="neutral"
 				variant="ghost"
-				to="https://github.com/nuxt/nuxt"
+				to="https://github.com/L1nkiZ/Qwizzy_Front"
 				target="_blank"
 				aria-label="GitHub"
 			/>
