@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import type { AuthFormField } from "@nuxt/ui";
 
+useHead({
+	title: "Qwizzy - Connexion",
+	meta: [
+		{
+			name: "description",
+			content: "Connectez-vous à votre compte Qwizzy pour accéder à vos quiz.",
+		},
+	],
+});
+
 const fields = ref<AuthFormField[]>([
 	{
 		name: "email",

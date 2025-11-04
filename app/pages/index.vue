@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import type { ButtonProps } from "@nuxt/ui";
 
+useHead({
+	title: "Qwizzy - Le meilleur site de quiz",
+	meta: [
+		{
+			name: "description",
+			content:
+				"Découvrez une variété de quiz sur différents sujets et testez vos connaissances avec Qwizzy.",
+		},
+	],
+});
+
 const links = ref<ButtonProps[]>([
 	{
 		label: "Explorez les quiz",
