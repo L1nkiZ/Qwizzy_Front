@@ -1,5 +1,33 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { ButtonProps } from "@nuxt/ui";
+
+const links = ref<ButtonProps[]>([
+	{
+		label: "Explorez les quiz",
+		to: "/quizs",
+		icon: "i-lucide-square-play",
+	},
+	{
+		label: "Quiz du jour",
+		to: "/quiz-du-jour/",
+		color: "neutral",
+		variant: "subtle",
+		trailingIcon: "i-lucide-arrow-right",
+	},
+]);
+</script>
 
 <template>
-	<h1>Index</h1>
+	<UPageHero
+		title="Le meilleur site de quiz"
+		description="Accédez à une multitude de quiz sur divers sujets et testez vos connaissances tout en vous amusant."
+		orientation="horizontal"
+		:links="links"
+	>
+		<img
+			src="/public/images/hero.png"
+			alt="App screenshot"
+			class="ring-default rounded-lg shadow-2xl ring"
+		/>
+	</UPageHero>
 </template>
