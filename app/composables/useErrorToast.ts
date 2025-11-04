@@ -7,7 +7,6 @@ export interface UseErrorToastOptions {
 	description?: ToastProps["description"];
 	icon?: ToastProps["icon"];
 	actions?: ToastProps["actions"];
-	contactSupport?: boolean;
 	retry?: () => Promise<void>;
 }
 
@@ -20,14 +19,10 @@ export interface UseErrorToastOptions {
  * @param options.description - Description
  * @param options.icon - Icône
  * @param options.actions - Boutons actions
- * @param options.contactSupport - Afficher le bouton de contact support
  * @param options.retry - Callback à exécuter lors du clic sur retry
  */
 export function useErrorToast(options: UseErrorToastOptions = {}) {
 	const { error, title, description, icon, actions, retry } = options;
-	const contactSupport = options.contactSupport ?? true;
-	const { $i18n } = useNuxtApp() as any;
-	const t = $i18n.t;
 
 	let actionButtons: UseErrorToastOptions["actions"] = actions ?? [];
 	if (error?.value && retry) {
@@ -35,7 +30,7 @@ export function useErrorToast(options: UseErrorToastOptions = {}) {
 			...actionButtons,
 			{
 				size: "sm",
-				label: t("retry"),
+				label: "Réessayer",
 				color: "error",
 				onClick: async () => {
 					await retry();
@@ -46,26 +41,15 @@ export function useErrorToast(options: UseErrorToastOptions = {}) {
 			},
 		];
 	}
-	if (contactSupport) {
-		actionButtons = [
-			...actionButtons,
-			{
-				size: "sm",
-				label: t("contactSupport"),
-				color: "neutral",
-				variant: "outline",
-				to: "/admin/support",
-			},
-		];
-	}
 
 	useToast().add({
 		title:
 			title ??
-			t("anErrorOccurred") +
+			"Une erreur est survenue " +
 				(error?.value ? ` (${error.value.statusCode})` : ""),
 		description:
-			description ?? t("thereWasAnErrorDuringTheTreatmentOfYourRequest"),
+			description ??
+			"Une erreur est survenue lors du traitement de votre demande.",
 		icon: icon ?? "i-lucide-circle-alert",
 		color: "error",
 		actions: actionButtons,
