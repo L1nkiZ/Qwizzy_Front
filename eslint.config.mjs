@@ -1,4 +1,5 @@
 import withNuxt from "./.nuxt/eslint.config.mjs";
+import checkFile from "eslint-plugin-check-file";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 
 export default withNuxt(
@@ -36,6 +37,16 @@ export default withNuxt(
 					ignoreStringEscape: false,
 				},
 			],
+			"vue/no-multiple-template-root": "off",
+		},
+	},
+	{
+		files: ["app/components/**/*.vue", "app/pages/**/*.vue"],
+		plugins: {
+			"check-file": checkFile,
+		},
+		rules: {
+			"check-file/no-index": "error",
 		},
 	},
 	eslintConfigPrettier,
