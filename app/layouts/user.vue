@@ -19,7 +19,7 @@ const headerItems = computed<NavigationMenuItem[]>(() => [
 const footerItems: NavigationMenuItem[] = [
 	{
 		label: "Mentions légales",
-		to: "/mentions-légales",
+		to: "/mentions-legales",
 	},
 	{
 		label: "Politique de confidentialité",
@@ -47,11 +47,15 @@ const footerItems: NavigationMenuItem[] = [
 			></UButton>
 			<UColorModeButton />
 		</template>
+
+		<template #body>
+			<UNavigationMenu :items="headerItems" orientation="vertical" />
+		</template>
 	</UHeader>
 
-	<div class="flex flex-1 flex-col">
+	<main class="min-h-[calc(100dvh-var(--ui-header-height))]">
 		<slot></slot>
-	</div>
+	</main>
 
 	<!-- eslint-disable-next-line -->
 	<UFooter>
@@ -60,7 +64,13 @@ const footerItems: NavigationMenuItem[] = [
 				Copyright © {{ new Date().getFullYear() }}
 			</p>
 		</template>
-		<UNavigationMenu :items="footerItems" variant="link" />
+		<UNavigationMenu
+			:items="footerItems"
+			variant="link"
+			:ui="{
+				list: 'flex-col sm:flex-row',
+			}"
+		/>
 		<template #right>
 			<UButton
 				icon="i-simple-icons-github"
