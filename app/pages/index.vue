@@ -30,8 +30,8 @@ const links = ref<ButtonProps[]>([
 
 <template>
 	<UPageHero
-		title="Le meilleur site de qwizz"
-		description="Accédez à une multitude de qwizz sur divers sujets et testez vos connaissances tout en vous amusant."
+		title="Le meilleur site de quiz"
+		description="Accédez à une multitude de quiz sur divers sujets et testez vos connaissances tout en vous amusant."
 		orientation="horizontal"
 		:links="links"
 	>
