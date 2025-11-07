@@ -5,14 +5,14 @@ const route = useRoute();
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
 	{
-		label: "Quizs",
-		to: "/quizs/",
-		active: route.path.startsWith("/quizs/"),
+		label: "Les qwizz",
+		to: "/qwizz/",
+		active: route.path.startsWith("/qwizz/"),
 	},
 	{
-		label: "Quiz du jour",
-		to: "/quiz-du-jour/",
-		active: route.path.startsWith("/quiz-du-jour/"),
+		label: "Qwizz du jour",
+		to: "/qwizz-du-jour/",
+		active: route.path.startsWith("/qwizz-du-jour/"),
 	},
 ]);
 

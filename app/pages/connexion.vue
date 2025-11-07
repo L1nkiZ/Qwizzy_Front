@@ -6,7 +6,7 @@ useHead({
 	meta: [
 		{
 			name: "description",
-			content: "Connectez-vous à votre compte Qwizzy pour accéder à vos quiz.",
+			content: "Connectez-vous à votre compte Qwizzy pour accéder à vos qwizz.",
 		},
 	],
 });

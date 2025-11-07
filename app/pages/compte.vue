@@ -8,7 +8,7 @@ useHead({
 	meta: [
 		{
 			name: "description",
-			content: "Gérez vos informations de compte et vos quiz sur Qwizzy.",
+			content: "Gérez vos informations de compte et vos qwizz sur Qwizzy.",
 		},
 	],
 });

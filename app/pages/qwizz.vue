@@ -1,11 +1,11 @@
 <script setup lang="ts">
 useHead({
-	title: "Qwizzy - Quiz",
+	title: "Qwizzy - Qwizz",
 	meta: [
 		{
 			name: "description",
 			content:
-				"Découvrez une variété de quiz sur différents sujets et testez vos connaissances avec Qwizzy.",
+				"Découvrez une variété de qwizz sur différents sujets et testez vos connaissances avec Qwizzy.",
 		},
 	],
 });

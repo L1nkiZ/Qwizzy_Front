@@ -2,25 +2,25 @@
 import type { ButtonProps } from "@nuxt/ui";
 
 useHead({
-	title: "Qwizzy - Le meilleur site de quiz",
+	title: "Qwizzy - Le meilleur site de qwizz",
 	meta: [
 		{
 			name: "description",
 			content:
-				"Découvrez une variété de quiz sur différents sujets et testez vos connaissances avec Qwizzy.",
+				"Découvrez une variété de qwizz sur différents sujets et testez vos connaissances avec Qwizzy.",
 		},
 	],
 });
 
 const links = ref<ButtonProps[]>([
 	{
-		label: "Explorez les quiz",
-		to: "/quizs",
+		label: "Explorez les qwizz",
+		to: "/qwizz",
 		icon: "i-lucide-square-play",
 	},
 	{
-		label: "Quiz du jour",
-		to: "/quiz-du-jour/",
+		label: "Qwizz du jour",
+		to: "/qwizz-du-jour/",
 		color: "neutral",
 		variant: "subtle",
 		trailingIcon: "i-lucide-arrow-right",
@@ -30,8 +30,8 @@ const links = ref<ButtonProps[]>([
 
 <template>
 	<UPageHero
-		title="Le meilleur site de quiz"
-		description="Accédez à une multitude de quiz sur divers sujets et testez vos connaissances tout en vous amusant."
+		title="Le meilleur site de qwizz"
+		description="Accédez à une multitude de qwizz sur divers sujets et testez vos connaissances tout en vous amusant."
 		orientation="horizontal"
 		:links="links"
 	>
