@@ -1,34 +1,45 @@
-FROM node:lts-alpine AS base
+FROM node:24-alpine AS base
 
 # Loading pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-# Ensure a clean working directory
-RUN rm -rf /app && mkdir -p /app
-
 # Set the working directory
 WORKDIR /app
-
-# Copy the application files
-COPY . /app
 
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Run infinite loop to keep the container running
-CMD ["tail", "-f", "/dev/null"]
-
+# Development stage
 FROM base AS development
 
-USER 1000
+# Copy package files first for better caching
+COPY package.json pnpm-lock.yaml ./
 
-ENV "CI"=true
+# Install dependencies
+RUN pnpm install --frozen-lockfile
 
-# Serve the app with dependency check
-CMD ["sh", "-c", "echo '🔄 Checking and installing dependencies...' && if [ ! -d 'node_modules' ] || [ 'pnpm-lock.yaml' -nt 'node_modules' ]; then echo '📦 Installing/updating dependencies...' && pnpm install; else echo '✅ Dependencies are up to date'; fi && echo '🚀 Starting development server...' && pnpm dev"]
+# Copy the rest of the application
+COPY . .
 
+# Start dev server
+CMD ["pnpm", "dev"]
+
+# Pre-production stage
 FROM base AS preprod
 
-CMD ["sh", "-c", "pnpm i && pnpm build && node .output/server/index.mjs"]
+# Copy package files first for better caching
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile --prod=false
+
+# Copy the rest of the application
+COPY . .
+
+# Build the application
+RUN pnpm build
+
+# Start the production server
+CMD ["node", ".output/server/index.mjs"]
