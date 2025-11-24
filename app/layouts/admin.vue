@@ -10,6 +10,11 @@ const headerItems = computed<NavigationMenuItem[]>(() => [
 		active: route.path.startsWith("/admin/qwizz/"),
 	},
 	{
+		label: "Questions",
+		to: "/admin/questions/",
+		active: route.path.startsWith("/admin/questions/"),
+	},
+	{
 		label: "Catégories",
 		to: "/admin/categories/",
 		active: route.path.startsWith("/admin/categories/"),
