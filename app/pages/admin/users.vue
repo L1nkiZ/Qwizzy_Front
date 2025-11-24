@@ -8,6 +8,11 @@ const data: User[] = [
 	{ id: 2, name: "Jane Smith", email: "jane.smith@example.com", role: "admin" },
 ];
 
+const enrichedData: User[] = data.map((user) => ({
+	...user,
+	translatedRole: displayRoleName(user.role),
+}));
+
 const columns: DataTableColumn<User>[] = [
 	{
 		accessorKey: "name",
@@ -28,6 +33,8 @@ const columns: DataTableColumn<User>[] = [
 		notSortable: true,
 	},
 ];
+
+const hiddenColumnsForSearch = [{ accessorKey: "translatedRole" }];
 
 const overlay = useOverlay();
 const roleModal = overlay.create(AdminUsersRoleModal);
@@ -51,7 +58,7 @@ function displayRoleName(role: string): string {
 </script>
 
 <template>
-	<div>
+	<UContainer>
 		<div class="mb-12">
 			<h1
 				class="mb-4 text-lg font-semibold md:mb-8 md:text-xl lg:mb-10 lg:text-2xl"
@@ -77,7 +84,11 @@ function displayRoleName(role: string): string {
 			</ul>
 		</div>
 
-		<AdminDataTable :data="data" :columns="columns">
+		<AdminDataTable
+			:data="enrichedData"
+			:columns="columns"
+			:hidden-columns-for-search="hiddenColumnsForSearch"
+		>
 			<template #header-title="{ numberOfTotalRows }">
 				Utilisateurs ({{ numberOfTotalRows }})
 			</template>
@@ -105,5 +116,5 @@ function displayRoleName(role: string): string {
 				</UButton>
 			</template>
 		</AdminDataTable>
-	</div>
+	</UContainer>
 </template>
