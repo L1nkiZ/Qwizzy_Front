@@ -32,7 +32,7 @@ const fields = ref<AuthFormField[]>([
 </script>
 
 <template>
-	<div class="flex flex-1 items-center justify-center">
+	<div class="mt-20 flex flex-1 items-center justify-center p-4">
 		<UPageCard class="w-full max-w-md">
 			<UAuthForm
 				title="Connexion"
