@@ -1,25 +1,31 @@
 <script setup lang="ts">
-import type { TableColumn } from "@nuxt/ui";
 import type { User } from "~/types/user.type";
 import { AdminUsersRoleModal } from "#components";
+import type { DataTableColumn } from "~/types/table.type";
 
 const data: User[] = [
 	{ id: 1, name: "John Doe", email: "john.doe@example.com", role: "admin" },
 	{ id: 2, name: "Jane Smith", email: "jane.smith@example.com", role: "admin" },
 ];
 
-const columns: TableColumn<User>[] = [
+const columns: DataTableColumn<User>[] = [
 	{
 		accessorKey: "name",
+		labelInColumnSelect: "Nom complet",
+		notHideable: true,
 	},
 	{
 		accessorKey: "email",
+		labelInColumnSelect: "Email",
 	},
 	{
 		accessorKey: "role",
+		labelInColumnSelect: "Rôle",
 	},
 	{
-		accessorKey: "actions",
+		accessorKey: "userActions",
+		labelInColumnSelect: "Actions",
+		notSortable: true,
 	},
 ];
 
@@ -28,6 +34,19 @@ const roleModal = overlay.create(AdminUsersRoleModal);
 
 function openRoleModal(user: User) {
 	roleModal.open({ user: user });
+}
+
+function displayRoleName(role: string): string {
+	switch (role) {
+		case "admin":
+			return "Administrateur";
+		case "editor":
+			return "Rédacteur";
+		case "user":
+			return "Utilisateur";
+		default:
+			return "Inconnu";
+	}
 }
 </script>
 
@@ -58,13 +77,24 @@ function openRoleModal(user: User) {
 			</ul>
 		</div>
 
-		<UTable :data="data" :columns="columns" class="bg-default">
-			<template #name-header>Nom complet</template>
-			<template #email-header>Email</template>
-			<template #role-header>Rôle</template>
-			<template #actions-header>Actions</template>
+		<AdminDataTable :data="data" :columns="columns">
+			<template #header-title="{ numberOfTotalRows }">
+				Utilisateurs ({{ numberOfTotalRows }})
+			</template>
 
-			<template #actions-cell="{ row }">
+			<template #name-header>Nom complet</template>
+
+			<template #email-header>Email</template>
+
+			<template #role-header>Rôle</template>
+
+			<template #role-cell="{ row }">
+				{{ displayRoleName(row.original.role) }}
+			</template>
+
+			<template #userActions-header>Actions</template>
+
+			<template #userActions-cell="{ row }">
 				<UButton
 					trailing-icon="i-lucide-settings"
 					color="neutral"
@@ -74,6 +104,6 @@ function openRoleModal(user: User) {
 					Modifier le rôle
 				</UButton>
 			</template>
-		</UTable>
+		</AdminDataTable>
 	</div>
 </template>
