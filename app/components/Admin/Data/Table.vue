@@ -251,7 +251,7 @@ const tableUi = computed(() => {
 	<div
 		:class="className"
 		:style="style"
-		class="border-accented flex flex-col rounded-md border bg-white"
+		class="border-accented bg-default flex flex-col rounded-md border"
 	>
 		<AdminDataHeader
 			v-model:search-filter="searchFilter"
