@@ -43,53 +43,55 @@ const footerItems: NavigationMenuItem[] = [
 </script>
 
 <template>
-	<UHeader>
-		<template #title>Qwizzy - Admin</template>
-		<UNavigationMenu :items="headerItems" />
-		<template #right>
-			<UButton
-				icon="i-lucide-user"
-				color="neutral"
-				variant="ghost"
-				to="/compte"
-			></UButton>
-			<UColorModeButton />
-		</template>
+	<UApp>
+		<UHeader>
+			<template #title>Qwizzy - Admin</template>
+			<UNavigationMenu :items="headerItems" />
+			<template #right>
+				<UButton
+					icon="i-lucide-user"
+					color="neutral"
+					variant="ghost"
+					to="/compte"
+				></UButton>
+				<UColorModeButton />
+			</template>
 
-		<template #body>
-			<UNavigationMenu :items="headerItems" orientation="vertical" />
-		</template>
-	</UHeader>
+			<template #body>
+				<UNavigationMenu :items="headerItems" orientation="vertical" />
+			</template>
+		</UHeader>
 
-	<main
-		class="bg-muted min-h-[calc(100dvh-var(--ui-header-height))] px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
-	>
-		<slot></slot>
-	</main>
+		<main
+			class="bg-muted min-h-[calc(100dvh-var(--ui-header-height))] px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
+		>
+			<slot></slot>
+		</main>
 
-	<!-- eslint-disable-next-line -->
-	<UFooter>
-		<template #left>
-			<p class="text-muted text-sm">
-				Copyright © {{ new Date().getFullYear() }}
-			</p>
-		</template>
-		<UNavigationMenu
-			:items="footerItems"
-			variant="link"
-			:ui="{
-				list: 'flex-col sm:flex-row',
-			}"
-		/>
-		<template #right>
-			<UButton
-				icon="i-simple-icons-github"
-				color="neutral"
-				variant="ghost"
-				to="https://github.com/L1nkiZ/Qwizzy_Front"
-				target="_blank"
-				aria-label="GitHub"
+		<!-- eslint-disable-next-line -->
+		<UFooter>
+			<template #left>
+				<p class="text-muted text-sm">
+					Copyright © {{ new Date().getFullYear() }}
+				</p>
+			</template>
+			<UNavigationMenu
+				:items="footerItems"
+				variant="link"
+				:ui="{
+					list: 'flex-col sm:flex-row',
+				}"
 			/>
-		</template>
-	</UFooter>
+			<template #right>
+				<UButton
+					icon="i-simple-icons-github"
+					color="neutral"
+					variant="ghost"
+					to="https://github.com/L1nkiZ/Qwizzy_Front"
+					target="_blank"
+					aria-label="GitHub"
+				/>
+			</template>
+		</UFooter>
+	</UApp>
 </template>
