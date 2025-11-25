@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+import { fr } from "@nuxt/ui/locale";
 
 const route = useRoute();
 
@@ -43,7 +44,7 @@ const footerItems: NavigationMenuItem[] = [
 </script>
 
 <template>
-	<UApp>
+	<UApp :locale="fr">
 		<UHeader>
 			<template #title>Qwizzy - Admin</template>
 			<UNavigationMenu :items="headerItems" />
