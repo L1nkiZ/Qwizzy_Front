@@ -225,8 +225,6 @@ const tableUi = computed(() => {
 		]
 			.filter(Boolean)
 			.join(" "),
-		// gérer l'overflow + set la max-width de tous les <td> à 0 pour leur permettre de re-shrinker, sauf la colonne d'action qui est fixe (la dernière)
-		td: "overflow-hidden whitespace-nowrap text-ellipsis not-last:max-w-0",
 	};
 
 	// Si une prop ui est fournie, on ajoute ses classes à celles de base

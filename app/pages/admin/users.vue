@@ -31,6 +31,7 @@ const columns: DataTableColumn<User>[] = [
 		accessorKey: "userActions",
 		labelInColumnSelect: "Actions",
 		notSortable: true,
+		meta: { class: { th: "w-45" } },
 	},
 ];
 

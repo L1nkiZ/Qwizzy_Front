@@ -14,7 +14,7 @@ const selectedColumnsToDisplay = defineModel<string[]>(
 
 <template>
 	<div
-		class="border-accented flex items-center justify-between gap-4 border-b p-4"
+		class="border-accented flex flex-col items-start justify-between gap-4 border-b p-4 md:flex-row md:items-center"
 	>
 		<div class="text-sm font-medium">
 			<slot name="title">
@@ -23,12 +23,13 @@ const selectedColumnsToDisplay = defineModel<string[]>(
 				</template>
 			</slot>
 		</div>
-		<div class="flex items-center gap-2">
+		<div class="flex w-full flex-col items-center gap-2 sm:flex-row md:w-fit">
 			<slot name="leading"></slot>
 			<UFormField
 				v-if="searchFilter !== undefined"
 				label="Rechercher parmis les données"
 				:ui="{ label: 'sr-only', container: 'mt-0' }"
+				class="w-full md:w-50"
 			>
 				<UInput
 					v-model="searchFilter"
@@ -41,13 +42,13 @@ const selectedColumnsToDisplay = defineModel<string[]>(
 				v-if="columnsToDisplay"
 				label="Colonnes affichées"
 				:ui="{ label: 'sr-only', container: 'mt-0' }"
+				class="w-full md:w-50"
 			>
 				<USelect
 					v-model="selectedColumnsToDisplay"
 					:items="columnsToDisplay"
 					multiple
 					placeholder="Colonnes affichées"
-					class="w-44"
 				></USelect>
 			</UFormField>
 			<slot name="trailing"></slot>
