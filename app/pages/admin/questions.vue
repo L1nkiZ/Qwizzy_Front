@@ -74,11 +74,16 @@ function openDeleteModal(question: Question) {
 <template>
 	<UContainer>
 		<div class="mb-12">
-			<h1
-				class="mb-4 text-lg font-semibold md:mb-8 md:text-xl lg:mb-10 lg:text-2xl"
-			>
-				Questions
-			</h1>
+			<div class="mb-4 flex justify-between md:mb-8 lg:mb-10 lg:text-2xl">
+				<h1 class="text-lg font-semibold md:text-xl">Questions</h1>
+				<UButton
+					icon="i-lucide-plus"
+					class="size-fit"
+					@click="openAddOrEditModal()"
+				>
+					Ajouter une question
+				</UButton>
+			</div>
 			<p class="mb-3">
 				Toues les questions possèdent 4 propositions dont une seule est
 				correcte. Elles sont obligatoirement associées à un sujet et une
@@ -98,7 +103,7 @@ function openDeleteModal(question: Question) {
 				Questions ({{ numberOfTotalRows }})
 			</template>
 
-			<template #question-header>Nom</template>
+			<template #question-header>Titre</template>
 
 			<template #subject-header>Sujet</template>
 
@@ -118,6 +123,7 @@ function openDeleteModal(question: Question) {
 				<UButton
 					trailing-icon="i-lucide-trash-2"
 					color="error"
+					variant="soft"
 					@click="openDeleteModal(row.original)"
 				>
 					Supprimer
