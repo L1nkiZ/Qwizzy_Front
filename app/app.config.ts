@@ -15,5 +15,10 @@ export default defineAppConfig({
 				base: "w-full",
 			},
 		},
+		inputMenu: {
+			slots: {
+				root: "w-full",
+			},
+		},
 	},
 });
