@@ -7,13 +7,21 @@ import {
 import type { DataTableColumn } from "~/types/table.type";
 import { fetchQuestions } from "~/services/admin/questions.service";
 
+type QuestionsResponse = {
+	questions: {
+		data: Question[];
+	};
+};
+
 const { data: questions, pending, error } = await fetchQuestions();
 
-const enrichedData = computed(() =>
+const enrichedData = computed<Question[]>(() =>
 	questions.value
-		? questions.value.map((question) => ({
-				...question,
-			}))
+		? (questions.value as QuestionsResponse).questions.data.map(
+				(question: Question) => ({
+					...question,
+				}),
+			)
 		: [],
 );
 
@@ -35,7 +43,7 @@ const columns: DataTableColumn<Question>[] = [
 		accessorKey: "questionActions",
 		labelInColumnSelect: "Actions",
 		notSortable: true,
-		meta: { class: { th: "w-50" } },
+		meta: { class: { th: "w-50", td: "space-x-2" } },
 	},
 ];
 
