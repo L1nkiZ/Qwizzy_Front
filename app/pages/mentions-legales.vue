@@ -1,5 +1,5 @@
 <template>
-	<UContainer class="py-12">
+	<UContainer class="max-w-4xl py-12">
 		<h1 class="mb-8 text-4xl font-bold">Mentions Légales</h1>
 
 		<div class="space-y-8">
