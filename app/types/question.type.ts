@@ -1,10 +1,14 @@
 export type Question = {
 	id: number;
-	name: string;
-	subject_id: number;
-	subject: string;
-	difficulty_id: number;
-	difficulty: number;
+	question: string;
+	subject: {
+		id: number;
+		name: string;
+	};
+	difficulty: {
+		id: number;
+		name: string;
+	};
 	proposal_1: string;
 	proposal_2: string;
 	proposal_3: string;

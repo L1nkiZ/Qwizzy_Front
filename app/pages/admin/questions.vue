@@ -13,21 +13,28 @@ type QuestionsResponse = {
 	};
 };
 
+type EnrichedQuestion = Omit<Question, "subject" | "difficulty"> & {
+	subject: string;
+	difficulty: string;
+};
+
 const { data: questions, pending, error } = await fetchQuestions();
 
-const enrichedData = computed<Question[]>(() =>
+const enrichedData = computed<EnrichedQuestion[]>(() =>
 	questions.value
 		? (questions.value as QuestionsResponse).questions.data.map(
 				(question: Question) => ({
 					...question,
+					subject: question.subject.name,
+					difficulty: question.difficulty.name,
 				}),
 			)
 		: [],
 );
 
-const columns: DataTableColumn<Question>[] = [
+const columns: DataTableColumn<EnrichedQuestion>[] = [
 	{
-		accessorKey: "name",
+		accessorKey: "question",
 		labelInColumnSelect: "Nom complet",
 		notHideable: true,
 	},
@@ -91,7 +98,7 @@ function openDeleteModal(question: Question) {
 				Questions ({{ numberOfTotalRows }})
 			</template>
 
-			<template #name-header>Nom</template>
+			<template #question-header>Nom</template>
 
 			<template #subject-header>Sujet</template>
 
