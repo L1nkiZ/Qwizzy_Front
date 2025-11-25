@@ -4,10 +4,11 @@ export default defineNuxtPlugin(() => {
 		public: { baseApiURL, nginx },
 	} = useRuntimeConfig();
 
+	// Determine the base URL for API requests (check if running on server or client + if there is nginx proxy)
 	const baseUrl: string = import.meta.server
-		? "http://api:3000/api/v1"
+		? "http://api:8000/api/"
 		: nginx
-			? "/api/v1"
+			? "/api/"
 			: baseApiURL;
 
 	const apiFetch = $fetch.create({
