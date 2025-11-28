@@ -24,6 +24,24 @@ export function fetchQuestions() {
 	});
 }
 
+/**
+ * Crée une nouvelle question
+ * @param payload Données de la question à créer
+ * @returns Promise contenant les données de la question créée et une éventuelle erreur
+ */
+export function createQuestion(payload: UpdateQuestion) {
+	return useNuxtApp().$apiFetch("/questions", {
+		method: "POST",
+		body: payload,
+	});
+}
+
+/**
+ * Met à jour une question existante
+ * @param id ID de la question à mettre à jour
+ * @param payload Données de la question à mettre à jour
+ * @returns Promise contenant les données de la question mise à jour et une éventuelle erreur
+ */
 export function updateQuestion(id: number, payload: UpdateQuestion) {
 	return useNuxtApp().$apiFetch(`/questions/${id}`, {
 		method: "PUT",

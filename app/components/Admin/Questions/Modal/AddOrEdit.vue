@@ -133,12 +133,21 @@ const schema = v.object({
 });
 
 async function updateOrCreate() {
-	// Sinon, on valide le formulaire
 	form.value?.validate();
+	// Si pas d'erreurs dans le form, on peut créer ou modifier la question
 	if (form.value?.errors.length === 0) {
-		// Si pas d'enfants, on supprime directement
 		if (!props.question) {
-			// Création
+			await updateQuestion(0, {
+				question: state.title,
+				proposal_1: state.proposal_1,
+				proposal_2: state.proposal_2,
+				proposal_3: state.proposal_3,
+				proposal_4: state.proposal_4,
+				subject_id: state.subject.value,
+				difficulty_id: state.difficulty.value,
+				correct_answer_number: state.answer,
+				question_type_id: 1, // TODO: supprimer les types de questions
+			});
 		} else {
 			await updateQuestion(props.question.id, {
 				question: state.title,
