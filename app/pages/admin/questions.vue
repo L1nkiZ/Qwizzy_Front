@@ -14,23 +14,27 @@ type QuestionsResponse = {
 };
 
 type EnrichedQuestion = Omit<Question, "subject" | "difficulty"> & {
-	subject: string;
-	difficulty: string;
+	subjectName: string;
+	difficultyName: string;
 };
 
 const { data: questions, pending, error } = await fetchQuestions();
+
+console.log(questions.value);
 
 const enrichedData = computed<EnrichedQuestion[]>(() =>
 	questions.value
 		? (questions.value as QuestionsResponse).questions.data.map(
 				(question: Question) => ({
 					...question,
-					subject: question.subject.name,
-					difficulty: question.difficulty.name,
+					subjectName: question.subject.name,
+					difficultyName: question.difficulty.name,
 				}),
 			)
 		: [],
 );
+
+console.log(enrichedData.value);
 
 const columns: DataTableColumn<EnrichedQuestion>[] = [
 	{
@@ -39,11 +43,11 @@ const columns: DataTableColumn<EnrichedQuestion>[] = [
 		notHideable: true,
 	},
 	{
-		accessorKey: "subject",
+		accessorKey: "subjectName",
 		labelInColumnSelect: "Sujet",
 	},
 	{
-		accessorKey: "difficulty",
+		accessorKey: "difficultyName",
 		labelInColumnSelect: "Difficulté",
 	},
 	{
