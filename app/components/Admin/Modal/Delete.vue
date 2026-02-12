@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface Props {
 	name: string;
+	onDelete?: () => void;
 }
 const props = defineProps<Props>();
 
@@ -20,7 +21,14 @@ const title = computed(() => `Supprimer "${props.name}"`);
 			<UButton color="neutral" variant="outline" @click="close">
 				Annuler
 			</UButton>
-			<UButton color="error" icon="i-lucide-trash-2">Supprimer</UButton>
+			<UButton
+				autofocus
+				color="error"
+				icon="i-lucide-trash-2"
+				@click="(props.onDelete?.(), close())"
+			>
+				Supprimer
+			</UButton>
 		</template>
 	</UModal>
 </template>

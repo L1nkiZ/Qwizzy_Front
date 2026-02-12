@@ -33,8 +33,19 @@ export function createDifficulty(payload: Partial<Difficulty>) {
  * @returns Promise contenant les données de la difficulté mise à jour et une éventuelle erreur
  */
 export function updateDifficulty(id: number, payload: Partial<Difficulty>) {
-	return useNuxtApp().$apiFetch(`/difficulty/${id}`, {
+	return useNuxtApp().$apiFetch(`/difficulties/${id}`, {
 		method: "PUT",
 		body: payload,
+	});
+}
+
+/**
+ * Supprime une difficulté existante
+ * @param id ID de la difficulté à supprimer
+ * @returns Promise contenant les données de la difficulté supprimée et une éventuelle erreur
+ */
+export function deleteDifficulty(id: number) {
+	return useNuxtApp().$apiFetch(`/difficulties/${id}`, {
+		method: "DELETE",
 	});
 }

@@ -10,6 +10,7 @@ import type { Difficulty } from "~/types/difficulty.type";
 interface Props {
 	difficulty?: Difficulty;
 	existingDifficulties?: Difficulty[];
+	onSuccess?: () => void | Promise<void>;
 }
 const props = defineProps<Props>();
 
@@ -25,6 +26,10 @@ const state = reactive<{
 	name: props.difficulty?.name || "",
 	point: props.difficulty?.point || 1,
 });
+
+const open = ref(false);
+const pending = ref(false);
+const closeModal = ref<(() => void) | null>(null);
 
 const schema = v.object({
 	name: v.pipe(
@@ -44,10 +49,22 @@ async function updateOrCreate() {
 	form.value?.validate();
 	// Si pas d'erreurs dans le form, on peut créer ou modifier la question
 	if (form.value?.errors.length === 0) {
-		if (!props.difficulty) {
-			await createDifficulty(state);
-		} else {
-			await updateDifficulty(props.difficulty.id, state);
+		try {
+			pending.value = true;
+
+			if (!props.difficulty) {
+				await createDifficulty(state);
+			} else {
+				await updateDifficulty(props.difficulty.id, state);
+			}
+
+			await props.onSuccess?.();
+			closeModal.value?.();
+		} catch (error) {
+			console.error("Erreur lors de la création/modification:", error);
+			// L'erreur est déjà gérée par le plugin apiFetch
+		} finally {
+			pending.value = false;
 		}
 	}
 }
@@ -55,6 +72,7 @@ async function updateOrCreate() {
 
 <template>
 	<UModal
+		v-model:open="open"
 		:title="editionMode ? 'Modifier la difficulté' : 'Ajouter une difficulté'"
 		:ui="{ footer: 'justify-end' }"
 		class="max-w-120"
@@ -85,8 +103,20 @@ async function updateOrCreate() {
 		</template>
 
 		<template #footer="{ close }">
-			<UButton color="neutral" variant="outline" @click="close">Fermer</UButton>
-			<UButton type="submit" :form="formId">
+			<UButton
+				color="neutral"
+				variant="outline"
+				:disabled="pending"
+				@click="close"
+			>
+				Fermer
+			</UButton>
+			<UButton
+				type="submit"
+				:form="formId"
+				:loading="pending"
+				@click="closeModal = close"
+			>
 				{{ editionMode ? "Modifier" : "Ajouter" }}
 			</UButton>
 		</template>
