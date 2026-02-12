@@ -57,7 +57,7 @@ const footerItems: NavigationMenuItem[] = [
 		</UHeader>
 
 		<main class="min-h-[calc(100dvh-var(--ui-header-height))]">
-			<slot/>
+			<slot />
 		</main>
 
 		<!-- eslint-disable-next-line -->

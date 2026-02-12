@@ -61,4 +61,4 @@ jobs:
       - name: Installing dependencies from lockfile
         run: pnpm install --frozen-lockfile
       - name: Running Formatting
-        run: pnpm format --check .
+        run: pnpm format:check

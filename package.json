@@ -6,7 +6,8 @@
 		"build": "nuxt build",
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
-		"format": "prettier",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
 		"lint": "eslint",
 		"preview": "nuxt preview",
 		"preinstall": "npx only-allow pnpm",
@@ -14,7 +15,7 @@
 		"prepare": "husky || true",
 		"test": "vitest",
 		"typecheck": "nuxt typecheck",
-		"check-quality": "pnpm lint && pnpm typecheck && pnpm format --check ."
+		"check-quality": "pnpm lint && pnpm typecheck && pnpm format:check"
 	},
 	"dependencies": {
 		"@compodium/nuxt": "0.1.0-beta.11",

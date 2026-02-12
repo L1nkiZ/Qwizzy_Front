@@ -24,7 +24,7 @@ const selectedColumnsToDisplay = defineModel<string[]>(
 			</slot>
 		</div>
 		<div class="flex w-full flex-col items-center gap-2 sm:flex-row md:w-fit">
-			<slot name="leading"/>
+			<slot name="leading" />
 			<UFormField
 				v-if="searchFilter !== undefined"
 				label="Rechercher parmis les données"
@@ -51,7 +51,7 @@ const selectedColumnsToDisplay = defineModel<string[]>(
 					placeholder="Colonnes affichées"
 				/>
 			</UFormField>
-			<slot name="trailing"/>
+			<slot name="trailing" />
 		</div>
 	</div>
 </template>

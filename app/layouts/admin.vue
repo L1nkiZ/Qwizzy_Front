@@ -67,7 +67,7 @@ const footerItems: NavigationMenuItem[] = [
 		<main
 			class="bg-muted min-h-[calc(100dvh-var(--ui-header-height))] px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
 		>
-			<slot/>
+			<slot />
 		</main>
 
 		<!-- eslint-disable-next-line -->

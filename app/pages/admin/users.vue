@@ -86,11 +86,7 @@ function displayRoleName(role: string): string {
 			</ul>
 		</div>
 
-		<AdminDataTable
-			:data="enrichedData"
-			:columns
-			:hidden-columns-for-search
-		>
+		<AdminDataTable :data="enrichedData" :columns :hidden-columns-for-search>
 			<template #header-title="{ numberOfTotalRows }">
 				Utilisateurs ({{ numberOfTotalRows }})
 			</template>

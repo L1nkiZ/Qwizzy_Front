@@ -11,7 +11,6 @@ import type {
 import type { TableRow, TableProps, DropdownMenuProps } from "@nuxt/ui";
 import type { HeaderContext } from "@tanstack/vue-table";
 
-
 type Props = {
 	data: T[];
 	columns: DataTableColumn<T>[];
@@ -272,7 +271,7 @@ const tableUi = computed(() => {
 				</slot>
 			</template>
 			<template #trailing>
-				<slot name="header-trailing"/>
+				<slot name="header-trailing" />
 			</template>
 		</AdminDataHeader>
 
@@ -326,13 +325,9 @@ const tableUi = computed(() => {
 								)
 							"
 						/>
-						<slot :name="`${col.accessorKey}-header`" v-bind="slotProps"/>
+						<slot :name="`${col.accessorKey}-header`" v-bind="slotProps" />
 					</div>
-					<slot
-						v-else
-						:name="`${col.accessorKey}-header`"
-						v-bind="slotProps"
-					/>
+					<slot v-else :name="`${col.accessorKey}-header`" v-bind="slotProps" />
 				</template>
 			</template>
 
@@ -369,7 +364,7 @@ const tableUi = computed(() => {
 			</template>
 
 			<template #expanded="{ row }">
-				<slot name="expanded" v-bind="{ row }"/>
+				<slot name="expanded" v-bind="{ row }" />
 			</template>
 		</UTable>
 
