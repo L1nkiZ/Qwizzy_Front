@@ -15,7 +15,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const editionMode = computed(() => !!props.question);
+const editionMode = !!props.question;
 
 const { data: subjects, status: subjectStatus } = await fetchSubjects();
 
@@ -54,7 +54,7 @@ type Answer = {
 
 const answer = ref<Answer | null>(null);
 
-if (editionMode.value) {
+if (editionMode) {
 	const { data: answerData } = await fetchAnswer(props.question?.id ?? 0);
 	answer.value = answerData.value as Answer;
 }
@@ -68,8 +68,8 @@ const formId = useId();
 
 const state = reactive<{
 	title: string;
-	subject: { value: number; label: string };
-	difficulty: number;
+	subject?: { value: number; label: string };
+	difficulty?: number;
 	proposal_1: string;
 	proposal_2: string;
 	proposal_3: string;
@@ -82,8 +82,8 @@ const state = reactive<{
 				value: props.question.subject.id,
 				label: props.question.subject.name,
 			}
-		: { value: 1, label: "The Witcher" },
-	difficulty: props.question?.difficulty?.id ?? 1,
+		: undefined,
+	difficulty: props.question?.difficulty?.id ?? undefined,
 	proposal_1: props.question?.proposal_1 || "",
 	proposal_2: props.question?.proposal_2 || "",
 	proposal_3: props.question?.proposal_3 || "",
@@ -137,8 +137,8 @@ async function updateOrCreate() {
 				proposal_2: state.proposal_2,
 				proposal_3: state.proposal_3,
 				proposal_4: state.proposal_4,
-				subject_id: state.subject.value,
-				difficulty_id: state.difficulty,
+				subject_id: state.subject!.value,
+				difficulty_id: state.difficulty!,
 				correct_answer_number: state.answer,
 				question_type_id: 1, // TODO: supprimer les types de questions
 			});
@@ -149,8 +149,8 @@ async function updateOrCreate() {
 				proposal_2: state.proposal_2,
 				proposal_3: state.proposal_3,
 				proposal_4: state.proposal_4,
-				subject_id: state.subject.value,
-				difficulty_id: state.difficulty,
+				subject_id: state.subject.value!,
+				difficulty_id: state.difficulty!,
 				correct_answer_number: state.answer,
 				question_type_id: props.question.question_type.id,
 			});
@@ -234,7 +234,7 @@ async function updateOrCreate() {
 		<template #footer="{ close }">
 			<UButton color="neutral" variant="outline" @click="close">Fermer</UButton>
 			<UButton type="submit" :form="formId">
-				{{ props.question ? "Modifier" : "Ajouter" }}
+				{{ editionMode ? "Modifier" : "Ajouter" }}
 			</UButton>
 		</template>
 	</UModal>

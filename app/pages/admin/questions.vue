@@ -4,10 +4,7 @@ import type { Question } from "~/types/question.type";
 
 import type { DataTableColumn } from "~/types/table.type";
 
-import {
-	AdminQuestionsModalAddOrEdit,
-	AdminQuestionsModalDelete,
-} from "#components";
+import { AdminQuestionsModalAddOrEdit, AdminModalDelete } from "#components";
 
 type QuestionsResponse = {
 	questions: {
@@ -66,10 +63,10 @@ function openAddOrEditModal(question?: Question) {
 	editOrAddModal.open({ question: question });
 }
 
-const deleteModal = overlay.create(AdminQuestionsModalDelete);
+const deleteModal = overlay.create(AdminModalDelete);
 
 function openDeleteModal(question: Question) {
-	deleteModal.open({ question: question });
+	deleteModal.open({ name: question.question });
 }
 </script>
 

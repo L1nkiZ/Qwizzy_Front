@@ -1,0 +1,26 @@
+<script setup lang="ts">
+interface Props {
+	name: string;
+}
+const props = defineProps<Props>();
+
+const title = computed(() => `Supprimer "${props.name}"`);
+</script>
+
+<template>
+	<UModal :title :ui="{ footer: 'justify-end' }" class="max-w-160">
+		<template #body>
+			<p>
+				Êtes-vous sûr de vouloir supprimer "{{ props.name }}" ? Cette action est
+				irréversible.
+			</p>
+		</template>
+
+		<template #footer="{ close }">
+			<UButton color="neutral" variant="outline" @click="close">
+				Annuler
+			</UButton>
+			<UButton color="error" icon="i-lucide-trash-2">Supprimer</UButton>
+		</template>
+	</UModal>
+</template>

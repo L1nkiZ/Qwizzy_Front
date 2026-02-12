@@ -40,7 +40,7 @@ function openAddOrEditModal(difficulty?: Difficulty) {
 const deleteModal = overlay.create(AdminModalDelete);
 
 function openDeleteModal(difficulty: Difficulty) {
-	deleteModal.open({ difficulty: difficulty });
+	deleteModal.open({ name: difficulty.name });
 }
 </script>
 

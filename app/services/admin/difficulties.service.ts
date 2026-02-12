@@ -13,3 +13,28 @@ export function fetchDifficulties() {
 		},
 	});
 }
+
+/**
+ * Crée une nouvelle difficulté
+ * @param payload Données de la difficulté à créer
+ * @returns Promise contenant les données de la difficulté créée et une éventuelle erreur
+ */
+export function createDifficulty(payload: Partial<Difficulty>) {
+	return useNuxtApp().$apiFetch("/difficulties", {
+		method: "POST",
+		body: payload,
+	});
+}
+
+/**
+ * Met à jour une difficulté existante
+ * @param id ID de la difficulté à mettre à jour
+ * @param payload Données de la difficulté à mettre à jour
+ * @returns Promise contenant les données de la difficulté mise à jour et une éventuelle erreur
+ */
+export function updateDifficulty(id: number, payload: Partial<Difficulty>) {
+	return useNuxtApp().$apiFetch(`/difficulty/${id}`, {
+		method: "PUT",
+		body: payload,
+	});
+}
