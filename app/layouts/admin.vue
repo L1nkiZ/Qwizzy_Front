@@ -46,7 +46,7 @@ const footerItems: NavigationMenuItem[] = [
 
 <template>
 	<UApp :locale="fr">
-		<UHeader>
+		<UHeader to="/admin">
 			<template #title>Qwizzy - Admin</template>
 			<UNavigationMenu :items="headerItems" />
 			<template #right>

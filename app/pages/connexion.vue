@@ -15,8 +15,6 @@ useHead({
 	],
 });
 
-const tokenCookie = useCookie("tokenCookie");
-
 const fields = ref<AuthFormField[]>([
 	{
 		required: true,
@@ -53,7 +51,16 @@ type Schema = v.InferOutput<typeof schema>;
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	await login(payload.data.email, payload.data.password)
 		.then((response) => {
-			tokenCookie.value = response;
+			const userTokenCookie = useCookie(
+				"userTokenCookie",
+				payload.data.remember
+					? {
+							maxAge: 60 * 60 * 24 * 30,
+						}
+					: undefined,
+			); // Cookie valable pendant 30 jours si "Remember me" est coché, sinon cookie de session
+
+			userTokenCookie.value = response;
 			navigateTo("/");
 		})
 		.catch((error) => {

@@ -53,8 +53,17 @@ type Schema = v.InferOutput<typeof schema>;
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	await login(payload.data.email, payload.data.password)
 		.then((response) => {
-			token.value = response;
-			navigateTo("/");
+			const adminTokenCookie = useCookie(
+				"adminTokenCookie",
+				payload.data.remember
+					? {
+							maxAge: 60 * 60 * 24 * 30,
+						}
+					: undefined,
+			); // Cookie valable pendant 30 jours si "Remember me" est coché, sinon cookie de session
+
+			adminTokenCookie.value = response;
+			navigateTo("/admin");
 		})
 		.catch((error) => {
 			// Gérer les erreurs de connexion, par exemple en affichant un message d'erreur
