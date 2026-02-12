@@ -9,6 +9,7 @@ import type { Difficulty } from "~/types/difficulty.type";
 
 interface Props {
 	difficulty?: Difficulty;
+	existingDifficulties?: Difficulty[];
 }
 const props = defineProps<Props>();
 
@@ -29,6 +30,12 @@ const schema = v.object({
 	name: v.pipe(
 		v.string(),
 		v.minLength(3, "Le nom doit faire au moins 3 caractères"),
+		v.custom((name: unknown) => {
+			const existingNames = (props.existingDifficulties || [])
+				.filter((d) => d.id !== props.difficulty?.id)
+				.map((d) => d.name.toLowerCase());
+			return !existingNames.includes((name as string).toLowerCase());
+		}, "Une difficulté avec ce nom existe déjà"),
 	),
 	point: v.pipe(v.number(), v.integer(), v.toMinValue(1), v.toMaxValue(65000)),
 });

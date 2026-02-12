@@ -34,7 +34,10 @@ const overlay = useOverlay();
 const editOrAddModal = overlay.create(AdminDifficultiesModalAddOrEdit);
 
 function openAddOrEditModal(difficulty?: Difficulty) {
-	editOrAddModal.open({ difficulty: difficulty });
+	editOrAddModal.open({
+		difficulty,
+		existingDifficulties: difficulties.value?.difficulty.data,
+	});
 }
 
 const deleteModal = overlay.create(AdminModalDelete);
