@@ -149,7 +149,7 @@ async function updateOrCreate() {
 				proposal_2: state.proposal_2,
 				proposal_3: state.proposal_3,
 				proposal_4: state.proposal_4,
-				subject_id: state.subject.value!,
+				subject_id: state.subject!.value,
 				difficulty_id: state.difficulty!,
 				correct_answer_number: state.answer,
 				question_type_id: props.question.question_type.id,
