@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from "@nuxt/ui";
 import { fr } from "@nuxt/ui/locale";
+
+import type { NavigationMenuItem } from "@nuxt/ui";
 
 const route = useRoute();
 
@@ -46,7 +47,7 @@ const footerItems: NavigationMenuItem[] = [
 					color="neutral"
 					variant="ghost"
 					to="/compte"
-				></UButton>
+				/>
 				<UColorModeButton />
 			</template>
 
@@ -56,7 +57,7 @@ const footerItems: NavigationMenuItem[] = [
 		</UHeader>
 
 		<main class="min-h-[calc(100dvh-var(--ui-header-height))]">
-			<slot></slot>
+			<slot/>
 		</main>
 
 		<!-- eslint-disable-next-line -->

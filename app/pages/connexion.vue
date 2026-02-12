@@ -38,7 +38,7 @@ const fields = ref<AuthFormField[]>([
 				title="Connexion"
 				description="Entrez vos identifiants pour accéder à votre compte."
 				icon="i-lucide-user"
-				:fields="fields"
+				:fields
 				class="max-w-md"
 			>
 				<template #description>

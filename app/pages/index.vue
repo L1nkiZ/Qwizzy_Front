@@ -33,7 +33,7 @@ const links = ref<ButtonProps[]>([
 		title="Le meilleur site de quiz"
 		description="Accédez à une multitude de quiz sur divers sujets et testez vos connaissances tout en vous amusant."
 		orientation="horizontal"
-		:links="links"
+		:links
 	>
 		<img
 			src="/public/images/hero.png"

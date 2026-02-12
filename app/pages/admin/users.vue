@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { User } from "~/types/user.type";
-import { AdminUsersRoleModal } from "#components";
 import type { DataTableColumn } from "~/types/table.type";
+import type { User } from "~/types/user.type";
+
+import { AdminUsersRoleModal } from "#components";
 
 const data: User[] = [
 	{ id: 1, name: "John Doe", email: "john.doe@example.com", role: "admin" },
@@ -87,8 +88,8 @@ function displayRoleName(role: string): string {
 
 		<AdminDataTable
 			:data="enrichedData"
-			:columns="columns"
-			:hidden-columns-for-search="hiddenColumnsForSearch"
+			:columns
+			:hidden-columns-for-search
 		>
 			<template #header-title="{ numberOfTotalRows }">
 				Utilisateurs ({{ numberOfTotalRows }})

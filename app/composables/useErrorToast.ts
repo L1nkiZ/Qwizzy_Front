@@ -1,5 +1,5 @@
-import type { FetchError } from "ofetch";
 import type { ToastProps } from "@nuxt/ui";
+import type { FetchError } from "ofetch";
 
 export interface UseErrorToastOptions {
 	error?: Ref<FetchError | undefined>;

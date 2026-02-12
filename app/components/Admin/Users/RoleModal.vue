@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { RadioGroupItem } from "@nuxt/ui";
 import type { User } from "~/types/user.type";
+
+import type { RadioGroupItem } from "@nuxt/ui";
 
 interface Props {
 	user: User;

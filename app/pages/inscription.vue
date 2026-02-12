@@ -32,7 +32,7 @@ const fields = ref<AuthFormField[]>([
 				title="Inscription"
 				description="Créez un compte pour accéder à vos scores et bien plus !"
 				icon="i-lucide-user-round-plus"
-				:fields="fields"
+				:fields
 				class="max-w-md"
 			>
 				<template #description>

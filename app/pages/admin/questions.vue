@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { fetchQuestions } from "~/services/admin/questions.service";
 import type { Question } from "~/types/question.type";
+
+import type { DataTableColumn } from "~/types/table.type";
+
 import {
 	AdminQuestionsModalAddOrEdit,
 	AdminQuestionsModalDelete,
 } from "#components";
-import type { DataTableColumn } from "~/types/table.type";
-import { fetchQuestions } from "~/services/admin/questions.service";
 
 type QuestionsResponse = {
 	questions: {
@@ -100,8 +102,8 @@ function openDeleteModal(question: Question) {
 		<AdminDataTable
 			v-else
 			:data="enrichedData"
-			:columns="columns"
-			:hidden-columns-for-search="hiddenColumnsForSearch"
+			:columns
+			:hidden-columns-for-search
 		>
 			<template #header-title="{ numberOfTotalRows }">
 				Questions ({{ numberOfTotalRows }})

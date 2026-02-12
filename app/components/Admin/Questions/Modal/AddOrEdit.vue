@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as v from "valibot";
+
 import { fetchAnswer } from "~/services/admin/answer.service";
 import { fetchDifficulties } from "~/services/admin/difficulties.service";
 import { updateQuestion } from "~/services/admin/questions.service";
@@ -176,8 +177,8 @@ async function updateOrCreate() {
 			<UForm
 				:id="formId"
 				ref="form"
-				:state="state"
-				:schema="schema"
+				:state
+				:schema
 				class="space-y-3"
 				@submit="updateOrCreate"
 			>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as v from "valibot";
+
 import type { FormSubmitEvent } from "@nuxt/ui";
 
 // Schéma de validation avec Valibot
