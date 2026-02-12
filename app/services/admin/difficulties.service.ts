@@ -1,9 +1,11 @@
+import type { Difficulty } from "~/types/difficulty.type";
+
 /**
- * Récupère la liste de toutes les sujets
- * @returns Promise contenant les données des sujets et une éventuelle erreur
+ * Récupère la liste de toutes les difficultés
+ * @returns Promise contenant les données des difficultés et une éventuelle erreur
  */
 export function fetchDifficulties() {
-	return useApiFetch("/difficulties", {
+	return useApiFetch<{ difficulty: { data: Difficulty[] } }>("/difficulties", {
 		params: {
 			current_sort: "id",
 			current_sort_dir: "asc",

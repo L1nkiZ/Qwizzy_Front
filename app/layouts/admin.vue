@@ -22,6 +22,11 @@ const headerItems = computed<NavigationMenuItem[]>(() => [
 		active: route.path.startsWith("/admin/categories/"),
 	},
 	{
+		label: "Difficultés",
+		to: "/admin/difficultes/",
+		active: route.path.startsWith("/admin/difficultes/"),
+	},
+	{
 		label: "Utilisateurs",
 		to: "/admin/users/",
 		active: route.path.startsWith("/admin/users/"),

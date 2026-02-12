@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-	<div />
+	<div>
+		<h1>Bienvenue sur l'administration de Qwizzy!</h1>
+	</div>
 </template>
