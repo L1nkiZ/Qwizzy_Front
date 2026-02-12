@@ -3,6 +3,6 @@ export default defineNuxtRouteMiddleware(() => {
 
 	// Si le cookie n'existe pas ou n'a pas de valeur, rediriger vers /connexion
 	if (!tokenCookie.value) {
-		return navigateTo("/connexion");
+		return navigateTo("/admin/connexion");
 	}
 });

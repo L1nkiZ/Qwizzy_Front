@@ -22,8 +22,6 @@ type EnrichedQuestion = Omit<Question, "subject" | "difficulty"> & {
 
 const { data: questions, pending, error } = await fetchQuestions();
 
-console.log(questions.value);
-
 const enrichedData = computed<EnrichedQuestion[]>(() =>
 	questions.value
 		? (questions.value as QuestionsResponse).questions.data.map(
@@ -35,8 +33,6 @@ const enrichedData = computed<EnrichedQuestion[]>(() =>
 			)
 		: [],
 );
-
-console.log(enrichedData.value);
 
 const columns: DataTableColumn<EnrichedQuestion>[] = [
 	{

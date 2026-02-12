@@ -15,7 +15,7 @@ useHead({
 	],
 });
 
-const tokenCookie = useCookie("tokenCookie");
+const token = useCookie("token");
 
 const fields = ref<AuthFormField[]>([
 	{
@@ -53,7 +53,7 @@ type Schema = v.InferOutput<typeof schema>;
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	await login(payload.data.email, payload.data.password)
 		.then((response) => {
-			tokenCookie.value = response;
+			token.value = response;
 			navigateTo("/");
 		})
 		.catch((error) => {
@@ -73,14 +73,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 				:schema
 				class="max-w-md"
 				@submit="onSubmit"
-			>
-				<template #description>
-					Vous n'avez pas de compte ?
-					<ULink to="/inscription" class="text-primary font-medium">
-						Inscrivez-vous
-					</ULink>
-				</template>
-			</UAuthForm>
+			/>
 		</UPageCard>
 	</div>
 </template>

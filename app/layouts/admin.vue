@@ -54,7 +54,7 @@ const footerItems: NavigationMenuItem[] = [
 					icon="i-lucide-user"
 					color="neutral"
 					variant="ghost"
-					to="/compte"
+					to="/admin/compte"
 				/>
 				<UColorModeButton />
 			</template>
@@ -64,11 +64,9 @@ const footerItems: NavigationMenuItem[] = [
 			</template>
 		</UHeader>
 
-		<main
-			class="bg-muted min-h-[calc(100dvh-var(--ui-header-height))] px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
-		>
+		<UMain class="px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
 			<slot />
-		</main>
+		</UMain>
 
 		<!-- eslint-disable-next-line -->
 		<UFooter>

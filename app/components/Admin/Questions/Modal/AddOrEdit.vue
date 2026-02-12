@@ -3,7 +3,10 @@ import * as v from "valibot";
 
 import { fetchAnswer } from "~/services/admin/answer.service";
 import { fetchDifficulties } from "~/services/admin/difficulties.service";
-import { updateQuestion } from "~/services/admin/questions.service";
+import {
+	createQuestion,
+	updateQuestion,
+} from "~/services/admin/questions.service";
 import { fetchSubjects } from "~/services/admin/subjects.service";
 import type { Question } from "~/types/question.type";
 
@@ -66,7 +69,7 @@ const formId = useId();
 const state = reactive<{
 	title: string;
 	subject: { value: number; label: string };
-	difficulty: { value: number; label: string };
+	difficulty: number;
 	proposal_1: string;
 	proposal_2: string;
 	proposal_3: string;
@@ -80,12 +83,7 @@ const state = reactive<{
 				label: props.question.subject.name,
 			}
 		: { value: 1, label: "The Witcher" },
-	difficulty: props.question?.difficulty
-		? {
-				value: props.question.difficulty.id,
-				label: props.question.difficulty.name,
-			}
-		: { value: 1, label: "Facile" },
+	difficulty: props.question?.difficulty?.id ?? 1,
 	proposal_1: props.question?.proposal_1 || "",
 	proposal_2: props.question?.proposal_2 || "",
 	proposal_3: props.question?.proposal_3 || "",
@@ -104,12 +102,7 @@ const schema = v.object({
 			label: v.string(),
 		}),
 	),
-	difficulty: v.pipe(
-		v.object({
-			value: v.number(),
-			label: v.string(),
-		}),
-	),
+	difficulty: v.pipe(v.number()),
 	proposal_1: v.pipe(
 		v.string(),
 		v.nonEmpty("Veuillez entrer une proposition."),
@@ -138,14 +131,14 @@ async function updateOrCreate() {
 	// Si pas d'erreurs dans le form, on peut créer ou modifier la question
 	if (form.value?.errors.length === 0) {
 		if (!props.question) {
-			await updateQuestion(0, {
+			await createQuestion({
 				question: state.title,
 				proposal_1: state.proposal_1,
 				proposal_2: state.proposal_2,
 				proposal_3: state.proposal_3,
 				proposal_4: state.proposal_4,
 				subject_id: state.subject.value,
-				difficulty_id: state.difficulty.value,
+				difficulty_id: state.difficulty,
 				correct_answer_number: state.answer,
 				question_type_id: 1, // TODO: supprimer les types de questions
 			});
@@ -157,7 +150,7 @@ async function updateOrCreate() {
 				proposal_3: state.proposal_3,
 				proposal_4: state.proposal_4,
 				subject_id: state.subject.value,
-				difficulty_id: state.difficulty.value,
+				difficulty_id: state.difficulty,
 				correct_answer_number: state.answer,
 				question_type_id: props.question.question_type.id,
 			});
@@ -199,7 +192,7 @@ async function updateOrCreate() {
 					/>
 				</UFormField>
 				<UFormField required name="difficulty" label="Difficulté">
-					<UInputMenu
+					<USelect
 						v-model="state.difficulty"
 						required
 						:loading="difficultiesStatus === 'idle'"
@@ -227,12 +220,12 @@ async function updateOrCreate() {
 					name="answer"
 					label="Numéro de la réponse correcte"
 				>
-					<UInput
+					<UInputNumber
 						v-model="state.answer"
+						class="w-full"
 						required
-						type="number"
-						min="1"
-						max="4"
+						:min="1"
+						:max="4"
 					/>
 				</UFormField>
 			</UForm>
