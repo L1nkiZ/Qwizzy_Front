@@ -70,7 +70,9 @@ const open = ref(false);
 		</template>
 	</UHeader>
 
-	<UMain class="px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
+	<UMain
+		class="mx-auto max-w-(--ui-container) px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
+	>
 		<UDashboardSearch v-model:open="open" :groups />
 		<slot />
 	</UMain>
