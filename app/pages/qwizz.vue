@@ -2,7 +2,11 @@
 import * as v from "valibot";
 
 import { fetchCategories } from "~/services/admin/categories.service";
-import { getPossibleAnswers, getQuestions } from "~/services/user/quiz.service";
+import {
+	getCorrectAnswer,
+	getPossibleAnswers,
+	getQuestions,
+} from "~/services/user/quiz.service";
 
 useHead({
 	title: "Qwizzy - Qwizz",
@@ -17,9 +21,17 @@ useHead({
 
 const { data: categoriesFetch } = await fetchCategories();
 const pending = ref(false);
+
 const questions = ref([]);
+
+// steps variables
 const questionIndex = ref(0);
 const possibleAnswers = ref([]);
+const textAnswer = ref("");
+const answerResult = ref("");
+
+const form = useTemplateRef<HTMLFormElement>("form");
+const formId = useId();
 
 const categories = computed(() =>
 	categoriesFetch.value
@@ -29,9 +41,6 @@ const categories = computed(() =>
 			}))
 		: [],
 );
-
-const form = useTemplateRef<HTMLFormElement>("form");
-const formId = useId();
 
 const state = reactive<{
 	numberOfQuestions: number;
@@ -93,13 +102,65 @@ async function getQuestionAnswers(question_id: number, mode: 1 | 2 | 3) {
 			mode,
 		});
 
-		possibleAnswers.value = response.proposals;
+		if (mode === 3) {
+			possibleAnswers.value = ["freetry"];
+		} else {
+			possibleAnswers.value = response.proposals;
+		}
 	} catch (error) {
 		useErrorToast({
 			title: "Erreur lors de la récupération des réponses possibles",
 			description: (error as Error).message,
 		});
 	}
+}
+
+async function checkAnswer(options: {
+	answer?: { position: NumberConstructor; label: string };
+	freetryAnswer?: string;
+	question_id: number;
+}) {
+	try {
+		const response = await getCorrectAnswer({
+			question_id: options.question_id,
+		});
+
+		if (options.freetryAnswer) {
+			if (
+				options.freetryAnswer.toLowerCase() ===
+				response.correct_answer_label.toLowerCase()
+			) {
+				answerResult.value = "Bien joué !";
+			} else {
+				answerResult.value = `Mauvaise réponse ! La bonne réponse était : ${response.correct_answer_label}`;
+			}
+		} else if (options.answer) {
+			if (response.correct_answer_position === options.answer?.position) {
+				answerResult.value = "Bien joué !";
+			} else {
+				answerResult.value = `Mauvaise réponse ! La bonne réponse était : ${response.correct_answer_label}`;
+			}
+		}
+	} catch (error) {
+		useErrorToast({
+			title: "Erreur lors de la récupération de la bonne réponse",
+			description: (error as Error).message,
+		});
+	}
+}
+
+function nextStep() {
+	possibleAnswers.value = [];
+	textAnswer.value = "";
+	answerResult.value = "";
+
+	if (questionIndex.value === questions.value.length) {
+		// Fin du quiz
+		questionIndex.value = 0;
+		questions.value = [];
+		return;
+	}
+	questionIndex.value += 1;
 }
 </script>
 
@@ -141,60 +202,103 @@ async function getQuestionAnswers(question_id: number, mode: 1 | 2 | 3) {
 					/>
 				</UFormField>
 
-				<UButton type="submit" :form="formId" class="ml-auto">
-					Générer le quiz
-				</UButton>
+				<UButton type="submit" :form="formId" block>Générer le quiz</UButton>
 			</UForm>
 		</UPageCard>
 
 		<div v-else class="mx-auto max-w-160">
-			{{ questions }}
 			<h2 class="mb-6 text-xl">
 				Question {{ questionIndex }} / {{ questions.length }}
 			</h2>
-			<UPageCard>
-				<p class="mb-4">Thème : {{ questions[questionIndex - 1].subject }}</p>
-				<p class="mb-4">Question : {{ questions[questionIndex - 1].title }}</p>
-				<UPageGrid>
-					<UButton
-						block
-						variant="outline"
-						color="neutral"
-						@click="getQuestionAnswers(questions[questionIndex - 1].id, 1)"
-					>
-						J'suis pas sûr
-					</UButton>
-					<UButton
-						block
-						variant="soft"
-						color="info"
-						@click="getQuestionAnswers(questions[questionIndex - 1].id, 2)"
-					>
-						J'crois je l'ai
-					</UButton>
-					<UButton
-						block
-						@click="getQuestionAnswers(questions[questionIndex - 1].id, 3)"
-					>
-						Let me cook
-					</UButton>
-				</UPageGrid>
 
-				<div v-if="possibleAnswers">
+			<UCard :ui="{ header: 'font-semibold' }">
+				<template #header>
+					{{ questions[questionIndex - 1].subject }}
+				</template>
+
+				<div class="space-y-6">
+					<p class="text-xl font-extralight">
+						{{ questions[questionIndex - 1].title }}
+					</p>
+
 					<div
-						v-if="possibleAnswers.length !== 1"
-						class="grid grid-cols-2 gap-4"
+						v-if="possibleAnswers.length === 0"
+						class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
 					>
 						<UButton
-							v-for="(answer, index) in possibleAnswers"
-							:key="index"
 							block
+							variant="outline"
+							color="neutral"
+							@click="getQuestionAnswers(questions[questionIndex - 1].id, 1)"
 						>
-							{{ answer }}
+							J'suis pas sûr
+						</UButton>
+						<UButton
+							block
+							variant="soft"
+							color="info"
+							@click="getQuestionAnswers(questions[questionIndex - 1].id, 2)"
+						>
+							J'crois je l'ai
+						</UButton>
+						<UButton
+							block
+							@click="getQuestionAnswers(questions[questionIndex - 1].id, 3)"
+						>
+							Let me cook
 						</UButton>
 					</div>
+
+					<template v-else>
+						<div
+							v-if="possibleAnswers.length !== 1"
+							class="grid grid-cols-2 gap-4"
+						>
+							<UButton
+								v-for="(answer, index) in possibleAnswers"
+								v-if="!answerResult"
+								:key="index"
+								variant="soft"
+								color="neutral"
+								block
+								@click="
+									checkAnswer({
+										answer,
+										question_id: questions[questionIndex - 1].id,
+									})
+								"
+							>
+								{{ answer.label }}
+							</UButton>
+						</div>
+
+						<div v-else>
+							<UFormField label="Saisir la bonne réponse" required>
+								<UInput v-model="textAnswer" required />
+							</UFormField>
+							<UButton
+								v-if="!answerResult"
+								block
+								variant="outline"
+								color="neutral"
+								@click="
+									checkAnswer({
+										freetryAnswer: textAnswer,
+										question_id: questions[questionIndex - 1].id,
+									})
+								"
+							>
+								Vérifier
+							</UButton>
+						</div>
+
+						<div v-if="answerResult">
+							<div class="mb-4">{{ answerResult }}</div>
+							<UButton block @click="nextStep">Continuer</UButton>
+						</div>
+					</template>
 				</div>
-			</UPageCard>
+			</UCard>
 		</div>
 	</div>
 </template>
