@@ -40,7 +40,7 @@ const loading = ref(false);
 
 // Fonction de soumission
 async function onSubmit(event: FormSubmitEvent<ContactForm>) {
-	console.log(event);
+	console.info(event);
 }
 </script>
 

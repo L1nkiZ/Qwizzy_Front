@@ -50,7 +50,7 @@ export function useErrorToast(options: UseErrorToastOptions = {}) {
 		description:
 			description ??
 			"Une erreur est survenue lors du traitement de votre demande.",
-		icon: icon ?? "i-lucide-circle-alert",
+		icon: icon ?? "lucide:circle-alert",
 		color: "error",
 		actions: actionButtons,
 	});

@@ -48,8 +48,6 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>;
 
-const toast = useToast();
-
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	await login(payload.data.email, payload.data.password)
 		.then((response) => {
@@ -66,10 +64,9 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 			navigateTo("/admin");
 		})
 		.catch((error) => {
-			toast.add({
+			useErrorToast({
 				title: "Erreur lors de la connexion",
 				description: error.message,
-				color: "error",
 			});
 		});
 }

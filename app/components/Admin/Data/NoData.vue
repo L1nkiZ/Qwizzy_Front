@@ -13,7 +13,8 @@ withDefaults(defineProps<Props>(), {
 interface Emits {
 	(createElement: "createElement"): void;
 }
-defineEmits<Emits>();
+
+const emit = defineEmits<Emits>();
 </script>
 
 <template>
@@ -34,7 +35,7 @@ defineEmits<Emits>();
 				type="button"
 				:aria-disabled="!userCanCreate"
 				size="xs"
-				@click="userCanCreate ? $emit('createElement') : null"
+				@click="userCanCreate ? emit('createElement') : null"
 			>
 				{{ action ?? "Créer un élément" }}
 				<span v-if="!userCanCreate" class="sr-only">

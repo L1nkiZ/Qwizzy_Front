@@ -39,13 +39,13 @@ const UButton = resolveComponent("UButton");
 
 type Emits = {
 	(e: "select", row: TableRow<T>): void;
-	(e: "create-element"): void;
+	(e: "createElement"): void;
 };
 
 const emit = defineEmits<Emits>();
 
 function createElement() {
-	emit("create-element");
+	emit("createElement");
 }
 
 function onSelect(row: TableRow<T>) {
