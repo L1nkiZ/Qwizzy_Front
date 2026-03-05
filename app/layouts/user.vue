@@ -8,13 +8,8 @@ const route = useRoute();
 const headerItems = computed<NavigationMenuItem[]>(() => [
 	{
 		label: "Les qwizz",
-		to: "/qwizz/",
-		active: route.path.startsWith("/qwizz/"),
-	},
-	{
-		label: "Qwizz du jour",
-		to: "/qwizz-du-jour/",
-		active: route.path.startsWith("/qwizz-du-jour/"),
+		to: "/qwizz",
+		active: route.path.startsWith("/qwizz"),
 	},
 ]);
 
