@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { fr } from "@nuxt/ui/locale";
-
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const route = useRoute();
@@ -40,57 +38,55 @@ const footerItems: NavigationMenuItem[] = [
 </script>
 
 <template>
-	<UApp :locale="fr">
-		<UHeader>
-			<template #title>
-				<AppLogo class="h-6 w-auto" />
-			</template>
-			<UNavigationMenu :items="headerItems" />
-			<template #right>
-				<UButton
-					icon="i-lucide-user"
-					color="neutral"
-					variant="ghost"
-					to="/compte"
-				/>
-				<UColorModeButton />
-			</template>
-
-			<template #body>
-				<UNavigationMenu :items="headerItems" orientation="vertical" />
-			</template>
-		</UHeader>
-
-		<UMain
-			class="mx-auto max-w-(--ui-container) px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
-		>
-			<slot />
-		</UMain>
-
-		<!-- eslint-disable-next-line -->
-		<UFooter>
-			<template #left>
-				<p class="text-muted text-sm">
-					Copyright © {{ new Date().getFullYear() }}
-				</p>
-			</template>
-			<UNavigationMenu
-				:items="footerItems"
-				variant="link"
-				:ui="{
-					list: 'flex-col sm:flex-row',
-				}"
+	<UHeader>
+		<template #title>
+			<AppLogo class="h-6 w-auto" />
+		</template>
+		<UNavigationMenu :items="headerItems" />
+		<template #right>
+			<UButton
+				icon="i-lucide-user"
+				color="neutral"
+				variant="ghost"
+				to="/compte"
 			/>
-			<template #right>
-				<UButton
-					icon="i-simple-icons-github"
-					color="neutral"
-					variant="ghost"
-					to="https://github.com/L1nkiZ/Qwizzy_Front"
-					target="_blank"
-					aria-label="GitHub"
-				/>
-			</template>
-		</UFooter>
-	</UApp>
+			<UColorModeButton />
+		</template>
+
+		<template #body>
+			<UNavigationMenu :items="headerItems" orientation="vertical" />
+		</template>
+	</UHeader>
+
+	<UMain
+		class="mx-auto max-w-(--ui-container) px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
+	>
+		<slot />
+	</UMain>
+
+	<!-- eslint-disable-next-line -->
+	<UFooter>
+		<template #left>
+			<p class="text-muted text-sm">
+				Copyright © {{ new Date().getFullYear() }}
+			</p>
+		</template>
+		<UNavigationMenu
+			:items="footerItems"
+			variant="link"
+			:ui="{
+				list: 'flex-col sm:flex-row',
+			}"
+		/>
+		<template #right>
+			<UButton
+				icon="i-simple-icons-github"
+				color="neutral"
+				variant="ghost"
+				to="https://github.com/L1nkiZ/Qwizzy_Front"
+				target="_blank"
+				aria-label="GitHub"
+			/>
+		</template>
+	</UFooter>
 </template>
