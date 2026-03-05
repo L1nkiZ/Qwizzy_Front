@@ -10,16 +10,28 @@ const { data: difficulties } = await fetchDifficulties();
 
 <template>
 	<div>
-		<h1>Bienvenue sur l'administration de Qwizzy !</h1>
+		<h1 class="mb-8">Bienvenue sur l'administration de Qwizzy !</h1>
 
 		<UPageGrid>
-			<UPageCard title="Nombre de questions créées :" spotlight>
+			<UPageCard
+				to="/admin/questions"
+				title="Nombre de questions créées :"
+				spotlight
+			>
 				<span class="text-4xl">{{ questions?.questions.data.length }}</span>
 			</UPageCard>
-			<UPageCard title="Nombre de catégories créées :" spotlight>
+			<UPageCard
+				to="/admin/categories"
+				title="Nombre de catégories créées :"
+				spotlight
+			>
 				<span class="text-4xl">{{ categories?.subject.data.length }}</span>
 			</UPageCard>
-			<UPageCard title="Nombre de difficultés créées :" spotlight>
+			<UPageCard
+				to="/admin/difficultes"
+				title="Nombre de difficultés créées :"
+				spotlight
+			>
 				<span class="text-4xl">{{ difficulties?.difficulty.data.length }}</span>
 			</UPageCard>
 		</UPageGrid>

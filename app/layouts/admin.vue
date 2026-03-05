@@ -6,31 +6,21 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 const route = useRoute();
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
-	// {
-	// 	label: "Qwizz",
-	// 	to: "/admin/qwizz/",
-	// 	active: route.path.startsWith("/admin/qwizz/"),
-	// },
 	{
 		label: "Questions",
-		to: "/admin/questions/",
-		active: route.path.startsWith("/admin/questions/"),
+		to: "/admin/questions",
+		active: route.path.startsWith("/admin/questions"),
 	},
 	{
 		label: "Catégories",
-		to: "/admin/categories/",
-		active: route.path.startsWith("/admin/categories/"),
+		to: "/admin/categories",
+		active: route.path.startsWith("/admin/categories"),
 	},
 	{
 		label: "Difficultés",
-		to: "/admin/difficultes/",
-		active: route.path.startsWith("/admin/difficultes/"),
+		to: "/admin/difficultes",
+		active: route.path.startsWith("/admin/difficultes"),
 	},
-	// {
-	// 	label: "Utilisateurs",
-	// 	to: "/admin/users/",
-	// 	active: route.path.startsWith("/admin/users/"),
-	// },
 ]);
 
 const footerItems: NavigationMenuItem[] = [
