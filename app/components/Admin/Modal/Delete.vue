@@ -4,12 +4,10 @@ interface Props {
 	onDelete?: () => void;
 }
 const props = defineProps<Props>();
-
-const title = computed(() => `Supprimer "${props.name}"`);
 </script>
 
 <template>
-	<UModal :title :ui="{ footer: 'justify-end' }" class="max-w-160">
+	<UModal title="Suppression" :ui="{ footer: 'justify-end' }" class="max-w-160">
 		<template #body>
 			<p>
 				Êtes-vous sûr de vouloir supprimer "{{ props.name }}" ? Cette action est

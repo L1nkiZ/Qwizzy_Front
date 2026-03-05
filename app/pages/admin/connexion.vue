@@ -15,8 +15,6 @@ useHead({
 	],
 });
 
-const token = useCookie("token");
-
 const fields = ref<AuthFormField[]>([
 	{
 		required: true,
@@ -50,6 +48,8 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>;
 
+const toast = useToast();
+
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	await login(payload.data.email, payload.data.password)
 		.then((response) => {
@@ -66,8 +66,11 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 			navigateTo("/admin");
 		})
 		.catch((error) => {
-			// Gérer les erreurs de connexion, par exemple en affichant un message d'erreur
-			console.error("Erreur de connexion :", error);
+			toast.add({
+				title: "Erreur lors de la connexion",
+				description: error.message,
+				color: "error",
+			});
 		});
 }
 </script>
