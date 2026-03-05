@@ -12,6 +12,8 @@ import type { Question } from "~/types/question.type";
 
 interface Props {
 	question?: Question;
+	existingQuestions: Question[];
+	onSuccess?: () => void | Promise<void>;
 }
 const props = defineProps<Props>();
 
@@ -66,6 +68,9 @@ const questionAnswer = computed(() =>
 const form = useTemplateRef<HTMLFormElement>("form");
 const formId = useId();
 
+const pending = ref(false);
+const closeModal = ref<(() => void) | null>(null);
+
 const state = reactive<{
 	title: string;
 	subject?: { value: number; label: string };
@@ -95,6 +100,12 @@ const schema = v.object({
 	title: v.pipe(
 		v.string(),
 		v.minLength(10, "Veuillez entrer un titre de minimum 10 caractères."),
+		v.custom((title: unknown) => {
+			const existingTitles = (props.existingQuestions || [])
+				.filter((q) => q.id !== props.question?.id)
+				.map((q) => q.question.toLowerCase());
+			return !existingTitles.includes((title as string).toLowerCase());
+		}, "Une question avec ce titre existe déjà"),
 	),
 	subject: v.pipe(
 		v.object({
@@ -130,30 +141,45 @@ async function updateOrCreate() {
 	form.value?.validate();
 	// Si pas d'erreurs dans le form, on peut créer ou modifier la question
 	if (form.value?.errors.length === 0) {
-		if (!props.question) {
-			await createQuestion({
-				question: state.title,
-				proposal_1: state.proposal_1,
-				proposal_2: state.proposal_2,
-				proposal_3: state.proposal_3,
-				proposal_4: state.proposal_4,
-				subject_id: state.subject!.value,
-				difficulty_id: state.difficulty!,
-				correct_answer_number: state.answer,
-				question_type_id: 1, // TODO: supprimer les types de questions
+		try {
+			pending.value = true;
+			if (!props.question) {
+				await createQuestion({
+					question: state.title,
+					proposal_1: state.proposal_1,
+					proposal_2: state.proposal_2,
+					proposal_3: state.proposal_3,
+					proposal_4: state.proposal_4,
+					subject_id: state.subject!.value,
+					difficulty_id: state.difficulty!,
+					correct_answer_number: state.answer,
+					question_type_id: 1, // TODO: supprimer les types de questions
+				});
+			} else {
+				await updateQuestion(props.question.id, {
+					question: state.title,
+					proposal_1: state.proposal_1,
+					proposal_2: state.proposal_2,
+					proposal_3: state.proposal_3,
+					proposal_4: state.proposal_4,
+					subject_id: state.subject!.value,
+					difficulty_id: state.difficulty!,
+					correct_answer_number: state.answer,
+					question_type_id: props.question.question_type.id,
+				});
+			}
+
+			await props.onSuccess?.();
+			closeModal.value?.();
+		} catch (error) {
+			useErrorToast({
+				title: editionMode
+					? "Erreur lors de la modification de la question"
+					: "Erreur lors de la création de la question",
+				description: (error as Error).message,
 			});
-		} else {
-			await updateQuestion(props.question.id, {
-				question: state.title,
-				proposal_1: state.proposal_1,
-				proposal_2: state.proposal_2,
-				proposal_3: state.proposal_3,
-				proposal_4: state.proposal_4,
-				subject_id: state.subject!.value,
-				difficulty_id: state.difficulty!,
-				correct_answer_number: state.answer,
-				question_type_id: props.question.question_type.id,
-			});
+		} finally {
+			pending.value = false;
 		}
 	}
 }
@@ -232,8 +258,20 @@ async function updateOrCreate() {
 		</template>
 
 		<template #footer="{ close }">
-			<UButton color="neutral" variant="outline" @click="close">Fermer</UButton>
-			<UButton type="submit" :form="formId">
+			<UButton
+				color="neutral"
+				variant="outline"
+				:disabled="pending"
+				@click="close"
+			>
+				Fermer
+			</UButton>
+			<UButton
+				type="submit"
+				:form="formId"
+				:loading="pending"
+				@click="closeModal = close"
+			>
 				{{ editionMode ? "Modifier" : "Ajouter" }}
 			</UButton>
 		</template>

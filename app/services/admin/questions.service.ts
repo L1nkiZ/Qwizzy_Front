@@ -1,3 +1,5 @@
+import type { Question } from "~/types/question.type";
+
 type UpdateQuestion = {
 	question: string;
 	proposal_1: string;
@@ -15,7 +17,7 @@ type UpdateQuestion = {
  * @returns Promise contenant les données des questions et une éventuelle erreur
  */
 export function fetchQuestions() {
-	return useApiFetch("/questions", {
+	return useApiFetch<{ questions: { data: Question[] } }>("/questions", {
 		params: {
 			current_sort: "id",
 			current_sort_dir: "asc",

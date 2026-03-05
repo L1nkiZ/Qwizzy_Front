@@ -17,7 +17,7 @@ type EnrichedQuestion = Omit<Question, "subject" | "difficulty"> & {
 	difficultyName: string;
 };
 
-const { data: questions, pending, error } = await fetchQuestions();
+const { data: questions, pending, error, refresh } = await fetchQuestions();
 
 const enrichedData = computed<EnrichedQuestion[]>(() =>
 	questions.value
@@ -60,7 +60,13 @@ const overlay = useOverlay();
 const editOrAddModal = overlay.create(AdminQuestionsModalAddOrEdit);
 
 function openAddOrEditModal(question?: Question) {
-	editOrAddModal.open({ question: question });
+	editOrAddModal.open({
+		question: question,
+		existingQuestions: questions.value?.questions.data || [],
+		onSuccess: async () => {
+			await refresh();
+		},
+	});
 }
 
 const deleteModal = overlay.create(AdminModalDelete);
