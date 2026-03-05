@@ -9,7 +9,7 @@ import type { Category } from "~/types/category.type";
 
 interface Props {
 	category?: Category;
-	existingCategories?: Category[];
+	existingCategories: Category[];
 	onSuccess?: () => void | Promise<void>;
 }
 const props = defineProps<Props>();

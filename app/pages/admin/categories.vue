@@ -6,7 +6,7 @@ import type { DataTableColumn } from "~/types/table.type";
 
 import { AdminCategoriesModalAddOrEdit, AdminModalDelete } from "#components";
 
-const { data: categories, pending, error } = await fetchCategories();
+const { data: categories, pending, error, refresh } = await fetchCategories();
 
 const columns: DataTableColumn<Category>[] = [
 	{
@@ -27,7 +27,13 @@ const overlay = useOverlay();
 const editOrAddModal = overlay.create(AdminCategoriesModalAddOrEdit);
 
 function openAddOrEditModal(category?: Category) {
-	editOrAddModal.open({ category: category });
+	editOrAddModal.open({
+		category: category,
+		existingCategories: categories?.value?.subject.data || [],
+		onSuccess: async () => {
+			await refresh();
+		},
+	});
 }
 
 const deleteModal = overlay.create(AdminModalDelete);
