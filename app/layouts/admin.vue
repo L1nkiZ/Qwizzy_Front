@@ -1,28 +1,26 @@
 <script setup lang="ts">
+import { useMediaQuery } from "@vueuse/core";
+
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const route = useRoute();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
 	{
-		label: "Qwizz",
-		to: "/admin/qwizz/",
-		active: route.path.startsWith("/admin/qwizz/"),
-	},
-	{
 		label: "Questions",
-		to: "/admin/questions/",
-		active: route.path.startsWith("/admin/questions/"),
+		to: "/admin/questions",
+		active: route.path.startsWith("/admin/questions"),
 	},
 	{
 		label: "Catégories",
-		to: "/admin/categories/",
-		active: route.path.startsWith("/admin/categories/"),
+		to: "/admin/categories",
+		active: route.path.startsWith("/admin/categories"),
 	},
 	{
-		label: "Utilisateurs",
-		to: "/admin/users/",
-		active: route.path.startsWith("/admin/users/"),
+		label: "Difficultés",
+		to: "/admin/difficultes",
+		active: route.path.startsWith("/admin/difficultes"),
 	},
 ]);
 
@@ -40,19 +38,30 @@ const footerItems: NavigationMenuItem[] = [
 		to: "/contact",
 	},
 ];
+
+const groups = [
+	{
+		id: "links",
+		label: "Paramétrage de l'application",
+		items: headerItems.value,
+	},
+];
+
+const open = ref(false);
 </script>
 
 <template>
-	<UHeader>
+	<UHeader to="/admin">
 		<template #title>Qwizzy - Admin</template>
 		<UNavigationMenu :items="headerItems" />
 		<template #right>
+			<UDashboardSearchButton :collapsed="!isDesktop" @click="open = true" />
 			<UButton
 				icon="i-lucide-user"
 				color="neutral"
 				variant="ghost"
-				to="/compte"
-			></UButton>
+				to="/admin/compte"
+			/>
 			<UColorModeButton />
 		</template>
 
@@ -61,11 +70,12 @@ const footerItems: NavigationMenuItem[] = [
 		</template>
 	</UHeader>
 
-	<main
-		class="bg-muted min-h-[calc(100dvh-var(--ui-header-height))] px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
+	<UMain
+		class="mx-auto max-w-(--ui-container) px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
 	>
-		<slot></slot>
-	</main>
+		<UDashboardSearch v-model:open="open" :groups />
+		<slot />
+	</UMain>
 
 	<!-- eslint-disable-next-line -->
 	<UFooter>

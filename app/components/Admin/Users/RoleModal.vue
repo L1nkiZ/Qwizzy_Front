@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { RadioGroupItem } from "@nuxt/ui";
 import type { User } from "~/types/user.type";
+
+import type { RadioGroupItem } from "@nuxt/ui";
 
 interface Props {
 	user: User;
@@ -25,6 +26,7 @@ const roles: RadioGroupItem[] = [
 	},
 ];
 
+// @ts-expect-error Besoin de refactor si feature réintégrée
 const role = ref(props.user.role);
 </script>
 

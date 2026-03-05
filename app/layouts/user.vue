@@ -6,13 +6,18 @@ const route = useRoute();
 const headerItems = computed<NavigationMenuItem[]>(() => [
 	{
 		label: "Les qwizz",
-		to: "/qwizz/",
-		active: route.path.startsWith("/qwizz/"),
+		to: "/qwizz",
+		active: route.path.startsWith("/qwizz"),
 	},
 	{
-		label: "Qwizz du jour",
-		to: "/qwizz-du-jour/",
-		active: route.path.startsWith("/qwizz-du-jour/"),
+		label: "Chat Code",
+		to: "/chat-code",
+		active: route.path.startsWith("/chat-code"),
+	},
+	{
+		label: "Chien aléatoire",
+		to: "/chien-aleatoire",
+		active: route.path.startsWith("/chien-aleatoire"),
 	},
 ]);
 
@@ -44,7 +49,7 @@ const footerItems: NavigationMenuItem[] = [
 				color="neutral"
 				variant="ghost"
 				to="/compte"
-			></UButton>
+			/>
 			<UColorModeButton />
 		</template>
 
@@ -53,9 +58,11 @@ const footerItems: NavigationMenuItem[] = [
 		</template>
 	</UHeader>
 
-	<main class="min-h-[calc(100dvh-var(--ui-header-height))]">
-		<slot></slot>
-	</main>
+	<UMain
+		class="mx-auto max-w-(--ui-container) px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
+	>
+		<slot />
+	</UMain>
 
 	<!-- eslint-disable-next-line -->
 	<UFooter>

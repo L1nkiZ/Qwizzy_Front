@@ -1,5 +1,5 @@
-import type { FetchError } from "ofetch";
 import type { ToastProps } from "@nuxt/ui";
+import type { FetchError } from "ofetch";
 
 export interface UseErrorToastOptions {
 	error?: Ref<FetchError | undefined>;
@@ -50,7 +50,7 @@ export function useErrorToast(options: UseErrorToastOptions = {}) {
 		description:
 			description ??
 			"Une erreur est survenue lors du traitement de votre demande.",
-		icon: icon ?? "i-lucide-circle-alert",
+		icon: icon ?? "lucide:circle-alert",
 		color: "error",
 		actions: actionButtons,
 	});

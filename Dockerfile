@@ -15,7 +15,7 @@ EXPOSE 3000
 FROM base AS development
 
 # Copy package files first for better caching
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -26,14 +26,14 @@ COPY . .
 # Start dev server
 CMD ["pnpm", "dev"]
 
-# Pre-production stage
-FROM base AS preprod
+# Production stage
+FROM base AS production
 
 # Copy package files first for better caching
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .npmrc ./
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile --prod=false
+RUN pnpm install --frozen-lockfile
 
 # Copy the rest of the application
 COPY . .

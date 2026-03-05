@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { fetchCurrentUser } from "~/services/admin/auth.service";
 
-definePageMeta({
-	middleware: "auth",
-});
-
 useHead({
 	title: "Qwizzy - Mon Compte",
 	meta: [
@@ -18,11 +14,11 @@ useHead({
 const { data: currentUser, error } = await fetchCurrentUser();
 
 function handleLogout() {
-	const userTokenCookie = useCookie("userTokenCookie");
+	const adminTokenCookie = useCookie("adminTokenCookie");
 
-	userTokenCookie.value = null;
+	adminTokenCookie.value = null;
 
-	navigateTo("/");
+	navigateTo("/admin/connexion");
 }
 </script>
 

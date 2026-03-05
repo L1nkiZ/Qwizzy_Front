@@ -1,12 +1,15 @@
 <script setup lang="ts" generic="T = unknown">
 import { h, resolveComponent } from "vue";
-import type { TableRow, TableProps, DropdownMenuProps } from "@nuxt/ui";
+
 import { getGroupedRowModel } from "@tanstack/vue-table";
-import type { HeaderContext } from "@tanstack/vue-table";
+
 import type {
 	HiddenColumnForSearch,
 	DataTableColumn,
 } from "~/types/table.type";
+
+import type { TableRow, TableProps, DropdownMenuProps } from "@nuxt/ui";
+import type { HeaderContext } from "@tanstack/vue-table";
 
 type Props = {
 	data: T[];
@@ -36,13 +39,13 @@ const UButton = resolveComponent("UButton");
 
 type Emits = {
 	(e: "select", row: TableRow<T>): void;
-	(e: "create-element"): void;
+	(e: "createElement"): void;
 };
 
 const emit = defineEmits<Emits>();
 
 function createElement() {
-	emit("create-element");
+	emit("createElement");
 }
 
 function onSelect(row: TableRow<T>) {
@@ -250,25 +253,25 @@ const tableUi = computed(() => {
 <template>
 	<div
 		:class="className"
-		:style="style"
-		class="border-accented flex flex-col rounded-md border bg-white"
+		:style
+		class="border-accented bg-default flex flex-col rounded-md border"
 	>
 		<AdminDataHeader
 			v-model:search-filter="searchFilter"
 			v-model:selected-columns-to-display="selectedColumnsToDisplay"
-			:columns-to-display="columnsToDisplay"
+			:columns-to-display
 		>
 			<template #title>
 				<slot
 					name="header-title"
-					:number-of-displayed-rows="numberOfDisplayedRows"
+					:number-of-displayed-rows
 					:number-of-total-rows="data?.length ?? 0"
 				>
 					Éléments {{ numberOfDisplayedRows }}
 				</slot>
 			</template>
 			<template #trailing>
-				<slot name="header-trailing"></slot>
+				<slot name="header-trailing" />
 			</template>
 		</AdminDataHeader>
 
@@ -322,13 +325,9 @@ const tableUi = computed(() => {
 								)
 							"
 						/>
-						<slot :name="`${col.accessorKey}-header`" v-bind="slotProps"></slot>
+						<slot :name="`${col.accessorKey}-header`" v-bind="slotProps" />
 					</div>
-					<slot
-						v-else
-						:name="`${col.accessorKey}-header`"
-						v-bind="slotProps"
-					></slot>
+					<slot v-else :name="`${col.accessorKey}-header`" v-bind="slotProps" />
 				</template>
 			</template>
 
@@ -365,7 +364,7 @@ const tableUi = computed(() => {
 			</template>
 
 			<template #expanded="{ row }">
-				<slot name="expanded" v-bind="{ row }"></slot>
+				<slot name="expanded" v-bind="{ row }" />
 			</template>
 		</UTable>
 
@@ -373,7 +372,7 @@ const tableUi = computed(() => {
 		<div class="border-accented text-muted border-t p-4 text-sm">
 			<slot
 				name="footer"
-				:number-of-displayed-rows="numberOfDisplayedRows"
+				:number-of-displayed-rows
 				:number-of-total-rows="data?.length ?? 0"
 			>
 				{{ numberOfDisplayedRows }} éléments sur

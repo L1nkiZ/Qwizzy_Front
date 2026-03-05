@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as v from "valibot";
+
 import type { FormSubmitEvent } from "@nuxt/ui";
 
 // Schéma de validation avec Valibot
@@ -39,7 +40,7 @@ const loading = ref(false);
 
 // Fonction de soumission
 async function onSubmit(event: FormSubmitEvent<ContactForm>) {
-	console.log(event);
+	console.info(event);
 }
 </script>
 

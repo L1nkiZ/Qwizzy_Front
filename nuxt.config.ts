@@ -12,7 +12,7 @@ export default defineNuxtConfig({
 	icon: { localApiEndpoint: "/nuxt/api" },
 	runtimeConfig: {
 		public: {
-			baseApiURL: process.env.BASE_API_URL ?? "http://localhost:8080/api/v1",
+			baseApiURL: process.env.BASE_API_URL ?? "http://localhost:8000/api/",
 		},
 	},
 	css: ["~/assets/css/main.css"],

@@ -11,12 +11,9 @@ useHead({
 </script>
 
 <template>
-	<AuthLoginForm title="Connexion">
-		<template #description>
-			Vous n'avez pas de compte ?
-			<ULink to="/inscription" class="text-primary font-medium">
-				Inscrivez-vous
-			</ULink>
-		</template>
-	</AuthLoginForm>
+	<AuthLoginForm
+		cookie-name="adminTokenCookie"
+		redirect-to="/admin"
+		title="Connexion"
+	/>
 </template>

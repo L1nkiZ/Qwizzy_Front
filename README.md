@@ -1,39 +1,11 @@
-# Nuxt Minimal Starter
+# Connexion au compte
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Joueur
 
-## Setup
+- email : member@example.com
+- mot de passe : password
 
-Make sure to install dependencies:
+## Admin
 
-```bash
-# pnpm
-pnpm install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# pnpm
-pnpm dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# pnpm
-pnpm build
-```
-
-Locally preview production build:
-
-```bash
-# pnpm
-pnpm preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- email : admin@example.com
+- mot de passe : password
