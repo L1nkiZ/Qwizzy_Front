@@ -14,10 +14,7 @@ export default defineNuxtPlugin(() => {
 		baseURL: baseUrl,
 		onRequest({ options }) {
 			if (!options) return;
-			if (!options.headers) options.headers = {} as Record<string, string>;
-			// Do not overwrite an existing Authorization header
-			if (options.headers["Authorization"] || options.headers["authorization"])
-				return;
+			if (!options.headers) options.headers = new Headers();
 
 			// Determine whether current interface is admin or front user
 			const route = useRoute();
