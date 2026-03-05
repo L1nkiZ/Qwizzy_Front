@@ -26,6 +26,7 @@ const roles: RadioGroupItem[] = [
 	},
 ];
 
+// @ts-expect-error Besoin de refactor si feature réintégrée
 const role = ref(props.user.role);
 </script>
 

@@ -5,12 +5,15 @@ import type { User } from "~/types/user.type";
 import { AdminUsersRoleModal } from "#components";
 
 const data: User[] = [
+	// @ts-expect-error Besoin de refactor si feature réintégrée
 	{ id: 1, name: "John Doe", email: "john.doe@example.com", role: "admin" },
+	// @ts-expect-error Besoin de refactor si feature réintégrée
 	{ id: 2, name: "Jane Smith", email: "jane.smith@example.com", role: "admin" },
 ];
 
 const enrichedData: User[] = data.map((user) => ({
 	...user,
+	// @ts-expect-error Besoin de refactor si feature réintégrée
 	translatedRole: displayRoleName(user.role),
 }));
 

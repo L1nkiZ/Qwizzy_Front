@@ -93,7 +93,9 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 				class="max-w-md"
 				@submit="onSubmit"
 			>
-				<slot name="description" />
+				<template #description>
+					<slot name="description" />
+				</template>
 			</UAuthForm>
 		</UPageCard>
 	</div>

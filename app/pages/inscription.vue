@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { AuthFormField } from "@nuxt/ui";
+import * as v from "valibot";
+
+import { register } from "~/services/admin/auth.service";
+
+import type { AuthFormField, FormSubmitEvent } from "@nuxt/ui";
 
 useHead({
 	title: "Qwizzy - Inscription",
@@ -13,16 +17,71 @@ useHead({
 
 const fields = ref<AuthFormField[]>([
 	{
-		name: "email",
+		required: true,
+		name: "username",
 		type: "text",
+		label: "Nom d'utilisateur",
+	},
+	{
+		required: true,
+		name: "email",
+		type: "email",
 		label: "Email",
 	},
 	{
+		required: true,
 		name: "password",
 		type: "password",
 		label: "Mot de passe",
 	},
+	{
+		required: true,
+		name: "remember",
+		label: "Remember me",
+		type: "checkbox",
+		defaultValue: true,
+	},
 ]);
+
+const schema = v.object({
+	username: v.pipe(v.string("Le nom d'utilisateur doit être renseigné.")),
+	email: v.pipe(
+		v.string("Veuillez entrer une adresse email."),
+		v.email("Veuillez entrer une adresse email valide."),
+	),
+	password: v.pipe(v.string("Le mot de passe doit être renseigné.")),
+	remember: v.boolean("Veuillez indiquer si vous souhaitez rester connecté."),
+});
+
+type Schema = v.InferOutput<typeof schema>;
+
+async function onSubmit(payload: FormSubmitEvent<Schema>) {
+	await register(
+		payload.data.username,
+		payload.data.email,
+		payload.data.password,
+	)
+		.then((response) => {
+			const tokenCookie = useCookie(
+				"userTokenCookie",
+				payload.data.remember
+					? {
+							maxAge: 60 * 60 * 24 * 30,
+						}
+					: undefined,
+			);
+
+			tokenCookie.value = response.token;
+
+			navigateTo("/");
+		})
+		.catch((error) => {
+			useErrorToast({
+				title: "Erreur lors de la connexion",
+				description: error.message,
+			});
+		});
+}
 </script>
 
 <template>
@@ -32,8 +91,10 @@ const fields = ref<AuthFormField[]>([
 				title="Inscription"
 				description="Créez un compte pour accéder à vos scores et bien plus !"
 				icon="i-lucide-user-round-plus"
+				:schema
 				:fields
 				class="max-w-md"
+				@submit="onSubmit"
 			>
 				<template #description>
 					Vous avez déjà un compte ?
