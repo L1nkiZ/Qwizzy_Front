@@ -11,6 +11,16 @@ const headerItems = computed<NavigationMenuItem[]>(() => [
 		to: "/qwizz",
 		active: route.path.startsWith("/qwizz"),
 	},
+	{
+		label: "Chat Code",
+		to: "/chat-code",
+		active: route.path.startsWith("/chat-code"),
+	},
+	{
+		label: "Chien aléatoire",
+		to: "/chien-aleatoire",
+		active: route.path.startsWith("/chien-aleatoire"),
+	},
 ]);
 
 const footerItems: NavigationMenuItem[] = [
@@ -51,7 +61,9 @@ const footerItems: NavigationMenuItem[] = [
 			</template>
 		</UHeader>
 
-		<UMain class="px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
+		<UMain
+			class="mx-auto max-w-(--ui-container) px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12"
+		>
 			<slot />
 		</UMain>
 
