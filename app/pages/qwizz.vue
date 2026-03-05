@@ -2,7 +2,7 @@
 import * as v from "valibot";
 
 import { fetchCategories } from "~/services/admin/categories.service";
-import { getQuestions } from "~/services/user/quiz.service";
+import { getPossibleAnswers, getQuestions } from "~/services/user/quiz.service";
 
 useHead({
 	title: "Qwizzy - Qwizz",
@@ -17,8 +17,9 @@ useHead({
 
 const { data: categoriesFetch } = await fetchCategories();
 const pending = ref(false);
-const questions = ref(null);
+const questions = ref([]);
 const questionIndex = ref(0);
+const possibleAnswers = ref([]);
 
 const categories = computed(() =>
 	categoriesFetch.value
@@ -59,7 +60,7 @@ const schema = v.object({
 async function generateQuiz() {
 	form.value?.validate();
 	questionIndex.value = 0;
-	questions.value = null;
+	questions.value = [];
 
 	// Si pas d'erreurs dans le form, on peut créer ou modifier la question
 	if (form.value?.errors.length === 0) {
@@ -84,6 +85,22 @@ async function generateQuiz() {
 		}
 	}
 }
+
+async function getQuestionAnswers(question_id: number, mode: 1 | 2 | 3) {
+	try {
+		const response = await getPossibleAnswers({
+			question_id,
+			mode,
+		});
+
+		possibleAnswers.value = response.proposals;
+	} catch (error) {
+		useErrorToast({
+			title: "Erreur lors de la récupération des réponses possibles",
+			description: (error as Error).message,
+		});
+	}
+}
 </script>
 
 <template>
@@ -92,7 +109,10 @@ async function generateQuiz() {
 			Générez un quiz et répondez aux questions que nous vous proposerons !
 		</h1>
 
-		<UPageCard v-if="questionIndex === 0" class="mx-auto max-w-100">
+		<UPageCard
+			v-if="questionIndex === 0 && questions.length === 0"
+			class="mx-auto max-w-100"
+		>
 			<UForm
 				:id="formId"
 				ref="form"
@@ -128,12 +148,52 @@ async function generateQuiz() {
 		</UPageCard>
 
 		<div v-else class="mx-auto max-w-160">
+			{{ questions }}
 			<h2 class="mb-6 text-xl">
 				Question {{ questionIndex }} / {{ questions.length }}
 			</h2>
 			<UPageCard>
 				<p class="mb-4">Thème : {{ questions[questionIndex - 1].subject }}</p>
 				<p class="mb-4">Question : {{ questions[questionIndex - 1].title }}</p>
+				<UPageGrid>
+					<UButton
+						block
+						variant="outline"
+						color="neutral"
+						@click="getQuestionAnswers(questions[questionIndex - 1].id, 1)"
+					>
+						J'suis pas sûr
+					</UButton>
+					<UButton
+						block
+						variant="soft"
+						color="info"
+						@click="getQuestionAnswers(questions[questionIndex - 1].id, 2)"
+					>
+						J'crois je l'ai
+					</UButton>
+					<UButton
+						block
+						@click="getQuestionAnswers(questions[questionIndex - 1].id, 3)"
+					>
+						Let me cook
+					</UButton>
+				</UPageGrid>
+
+				<div v-if="possibleAnswers">
+					<div
+						v-if="possibleAnswers.length !== 1"
+						class="grid grid-cols-2 gap-4"
+					>
+						<UButton
+							v-for="(answer, index) in possibleAnswers"
+							:key="index"
+							block
+						>
+							{{ answer }}
+						</UButton>
+					</div>
+				</div>
 			</UPageCard>
 		</div>
 	</div>
