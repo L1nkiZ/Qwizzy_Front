@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-	middleware: "admin-auth",
-});
-
 useHead({
 	title: "Qwizzy - Mon Compte",
 	meta: [
