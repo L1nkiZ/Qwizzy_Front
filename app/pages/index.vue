@@ -18,13 +18,6 @@ const links = ref<ButtonProps[]>([
 		to: "/qwizz",
 		icon: "i-lucide-square-play",
 	},
-	{
-		label: "Qwizz du jour",
-		to: "/qwizz-du-jour/",
-		color: "neutral",
-		variant: "subtle",
-		trailingIcon: "i-lucide-arrow-right",
-	},
 ]);
 </script>
 
