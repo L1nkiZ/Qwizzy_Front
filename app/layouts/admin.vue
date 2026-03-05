@@ -6,11 +6,11 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 const route = useRoute();
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
-	{
-		label: "Qwizz",
-		to: "/admin/qwizz/",
-		active: route.path.startsWith("/admin/qwizz/"),
-	},
+	// {
+	// 	label: "Qwizz",
+	// 	to: "/admin/qwizz/",
+	// 	active: route.path.startsWith("/admin/qwizz/"),
+	// },
 	{
 		label: "Questions",
 		to: "/admin/questions/",
@@ -26,11 +26,11 @@ const headerItems = computed<NavigationMenuItem[]>(() => [
 		to: "/admin/difficultes/",
 		active: route.path.startsWith("/admin/difficultes/"),
 	},
-	{
-		label: "Utilisateurs",
-		to: "/admin/users/",
-		active: route.path.startsWith("/admin/users/"),
-	},
+	// {
+	// 	label: "Utilisateurs",
+	// 	to: "/admin/users/",
+	// 	active: route.path.startsWith("/admin/users/"),
+	// },
 ]);
 
 const footerItems: NavigationMenuItem[] = [
