@@ -12,8 +12,20 @@ useHead({
 		},
 	],
 });
+
+function handleLogout() {
+	const userTokenCookie = useCookie("userTokenCookie");
+
+	userTokenCookie.value = null;
+
+	navigateTo("/");
+}
 </script>
 
 <template>
-	<div />
+	<div>
+		<UButton color="neutral" variant="outline" @click="handleLogout">
+			Se déconnecter
+		</UButton>
+	</div>
 </template>
