@@ -9,7 +9,9 @@ type Quiz = {
  * @returns Promise contenant les données des questions et une éventuelle erreur
  */
 export function getQuestions(payload: Partial<Quiz>) {
-	return useNuxtApp().$apiFetch("/game/getQuestions", {
+	return useNuxtApp().$apiFetch<{
+		questions: { id: number; subject: string; title: string }[];
+	}>("/game/getQuestions", {
 		method: "POST",
 		body: {
 			numberOfQuestions: payload.numberOfQuestions,
@@ -27,7 +29,9 @@ export function getPossibleAnswers(payload: {
 	question_id: number;
 	mode: 1 | 2 | 3;
 }) {
-	return useNuxtApp().$apiFetch("/game/questions/options", {
+	return useNuxtApp().$apiFetch<{
+		proposals: { position: number; label: string }[];
+	}>("/game/questions/options", {
 		method: "POST",
 		body: payload,
 	});
@@ -39,7 +43,10 @@ export function getPossibleAnswers(payload: {
  * @returns Promise contenant la réponses et une éventuelle erreur
  */
 export function getCorrectAnswer(payload: { question_id: number }) {
-	return useNuxtApp().$apiFetch("/game/answers/check", {
+	return useNuxtApp().$apiFetch<{
+		correct_answer_position: number;
+		correct_answer_label: string;
+	}>("/game/answers/check", {
 		method: "POST",
 		body: payload,
 	});

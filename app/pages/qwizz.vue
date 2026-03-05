@@ -23,6 +23,9 @@ const { data: categoriesFetch } = await fetchCategories();
 const pending = ref(false);
 
 const questions = ref([]);
+const currentQuestion = computed(() =>
+	questions.value.length > 0 ? questions.value[questionIndex.value - 1] : null,
+);
 
 // steps variables
 const questionIndex = ref(0);
@@ -116,7 +119,7 @@ async function getQuestionAnswers(question_id: number, mode: 1 | 2 | 3) {
 }
 
 async function checkAnswer(options: {
-	answer?: { position: NumberConstructor; label: string };
+	answer?: { position: number; label: string };
 	freetryAnswer?: string;
 	question_id: number;
 }) {
@@ -171,7 +174,7 @@ function nextStep() {
 		</h1>
 
 		<UPageCard
-			v-if="questionIndex === 0 && questions.length === 0"
+			v-if="questionIndex === 0 && !currentQuestion"
 			class="mx-auto max-w-100"
 		>
 			<UForm
@@ -213,12 +216,12 @@ function nextStep() {
 
 			<UCard :ui="{ header: 'font-semibold' }">
 				<template #header>
-					{{ questions[questionIndex - 1].subject }}
+					{{ currentQuestion.subject }}
 				</template>
 
 				<div class="space-y-6">
 					<p class="text-xl font-extralight">
-						{{ questions[questionIndex - 1].title }}
+						{{ currentQuestion.title }}
 					</p>
 
 					<div
@@ -229,7 +232,7 @@ function nextStep() {
 							block
 							variant="outline"
 							color="neutral"
-							@click="getQuestionAnswers(questions[questionIndex - 1].id, 1)"
+							@click="getQuestionAnswers(currentQuestion.id, 1)"
 						>
 							J'suis pas sûr
 						</UButton>
@@ -237,14 +240,11 @@ function nextStep() {
 							block
 							variant="soft"
 							color="info"
-							@click="getQuestionAnswers(questions[questionIndex - 1].id, 2)"
+							@click="getQuestionAnswers(currentQuestion.id, 2)"
 						>
 							J'crois je l'ai
 						</UButton>
-						<UButton
-							block
-							@click="getQuestionAnswers(questions[questionIndex - 1].id, 3)"
-						>
+						<UButton block @click="getQuestionAnswers(currentQuestion.id, 3)">
 							Let me cook
 						</UButton>
 					</div>
@@ -254,22 +254,23 @@ function nextStep() {
 							v-if="possibleAnswers.length !== 1"
 							class="grid grid-cols-2 gap-4"
 						>
-							<UButton
-								v-for="(answer, index) in possibleAnswers"
-								v-if="!answerResult"
-								:key="index"
-								variant="soft"
-								color="neutral"
-								block
-								@click="
-									checkAnswer({
-										answer,
-										question_id: questions[questionIndex - 1].id,
-									})
-								"
-							>
-								{{ answer.label }}
-							</UButton>
+							<template v-if="!answerResult">
+								<UButton
+									v-for="(answer, index) in possibleAnswers"
+									:key="index"
+									variant="soft"
+									color="neutral"
+									block
+									@click="
+										checkAnswer({
+											answer,
+											question_id: currentQuestion.id,
+										})
+									"
+								>
+									{{ answer.label }}
+								</UButton>
+							</template>
 						</div>
 
 						<div v-else>
@@ -284,7 +285,7 @@ function nextStep() {
 								@click="
 									checkAnswer({
 										freetryAnswer: textAnswer,
-										question_id: questions[questionIndex - 1].id,
+										question_id: currentQuestion.id,
 									})
 								"
 							>
