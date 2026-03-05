@@ -22,14 +22,26 @@ useHead({
 const { data: categoriesFetch } = await fetchCategories();
 const pending = ref(false);
 
-const questions = ref([]);
+const questions = ref<
+	{
+		id: number;
+		subject: string;
+		title: string;
+	}[]
+>([]);
 const currentQuestion = computed(() =>
 	questions.value.length > 0 ? questions.value[questionIndex.value - 1] : null,
 );
 
 // steps variables
 const questionIndex = ref(0);
-const possibleAnswers = ref([]);
+const possibleAnswers = ref<
+	| {
+			position: number;
+			label: string;
+	  }[]
+	| ["freetry"]
+>([]);
 const textAnswer = ref("");
 const answerResult = ref("");
 
@@ -169,7 +181,7 @@ function nextStep() {
 
 <template>
 	<div>
-		<h1 class="mb-20 text-2xl">
+		<h1 class="mb-20 text-center text-2xl">
 			Générez un quiz et répondez aux questions que nous vous proposerons !
 		</h1>
 
@@ -205,7 +217,7 @@ function nextStep() {
 					/>
 				</UFormField>
 
-				<UButton type="submit" :form="formId" block>Générer le quiz</UButton>
+				<UButton type="submit" :form="formId" block>Générer un quiz !</UButton>
 			</UForm>
 		</UPageCard>
 
@@ -216,12 +228,12 @@ function nextStep() {
 
 			<UCard :ui="{ header: 'font-semibold' }">
 				<template #header>
-					{{ currentQuestion.subject }}
+					{{ currentQuestion!.subject }}
 				</template>
 
 				<div class="space-y-6">
 					<p class="text-xl font-extralight">
-						{{ currentQuestion.title }}
+						{{ currentQuestion!.title }}
 					</p>
 
 					<div
@@ -232,7 +244,7 @@ function nextStep() {
 							block
 							variant="outline"
 							color="neutral"
-							@click="getQuestionAnswers(currentQuestion.id, 1)"
+							@click="getQuestionAnswers(currentQuestion!.id, 1)"
 						>
 							J'suis pas sûr
 						</UButton>
@@ -240,11 +252,11 @@ function nextStep() {
 							block
 							variant="soft"
 							color="info"
-							@click="getQuestionAnswers(currentQuestion.id, 2)"
+							@click="getQuestionAnswers(currentQuestion!.id, 2)"
 						>
 							J'crois je l'ai
 						</UButton>
-						<UButton block @click="getQuestionAnswers(currentQuestion.id, 3)">
+						<UButton block @click="getQuestionAnswers(currentQuestion!.id, 3)">
 							Let me cook
 						</UButton>
 					</div>
@@ -263,17 +275,21 @@ function nextStep() {
 									block
 									@click="
 										checkAnswer({
+											// @ts-expect-error Type de answer incorrect à cause de la réponse freetry qui a une structure différente
 											answer,
-											question_id: currentQuestion.id,
+											question_id: currentQuestion!.id,
 										})
 									"
 								>
-									{{ answer.label }}
+									{{
+										// @ts-expect-error Type de answer incorrect à cause de la réponse freetry qui a une structure différente
+										answer.label
+									}}
 								</UButton>
 							</template>
 						</div>
 
-						<div v-else>
+						<template v-else>
 							<UFormField label="Saisir la bonne réponse" required>
 								<UInput v-model="textAnswer" required />
 							</UFormField>
@@ -285,13 +301,13 @@ function nextStep() {
 								@click="
 									checkAnswer({
 										freetryAnswer: textAnswer,
-										question_id: currentQuestion.id,
+										question_id: currentQuestion!.id,
 									})
 								"
 							>
 								Vérifier
 							</UButton>
-						</div>
+						</template>
 
 						<div v-if="answerResult">
 							<div class="mb-4">{{ answerResult }}</div>
