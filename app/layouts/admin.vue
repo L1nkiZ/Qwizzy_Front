@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useMediaQuery } from "@vueuse/core";
+
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const route = useRoute();
+const isDesktop = useMediaQuery("(min-width: 1024px)");
 
 const headerItems = computed<NavigationMenuItem[]>(() => [
 	{
@@ -35,6 +38,16 @@ const footerItems: NavigationMenuItem[] = [
 		to: "/contact",
 	},
 ];
+
+const groups = [
+	{
+		id: "links",
+		label: "Paramétrage de l'application",
+		items: headerItems.value,
+	},
+];
+
+const open = ref(false);
 </script>
 
 <template>
@@ -42,6 +55,7 @@ const footerItems: NavigationMenuItem[] = [
 		<template #title>Qwizzy - Admin</template>
 		<UNavigationMenu :items="headerItems" />
 		<template #right>
+			<UDashboardSearchButton :collapsed="!isDesktop" @click="open = true" />
 			<UButton
 				icon="i-lucide-user"
 				color="neutral"
@@ -57,6 +71,7 @@ const footerItems: NavigationMenuItem[] = [
 	</UHeader>
 
 	<UMain class="px-4 py-8 md:px-6 md:py-10 lg:px-8 lg:py-12">
+		<UDashboardSearch v-model:open="open" :groups />
 		<slot />
 	</UMain>
 
