@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { fetchCurrentUser } from "~/services/admin/auth.service";
+
 definePageMeta({
 	middleware: "auth",
 });
@@ -13,6 +15,8 @@ useHead({
 	],
 });
 
+const { data: currentUser, error } = await fetchCurrentUser();
+
 function handleLogout() {
 	const userTokenCookie = useCookie("userTokenCookie");
 
@@ -24,8 +28,30 @@ function handleLogout() {
 
 <template>
 	<div>
-		<UButton color="neutral" variant="outline" @click="handleLogout">
-			Se déconnecter
-		</UButton>
+		<UPageHeader title="Mon compte" class="mb-12" />
+
+		<UAlert v-if="error" type="error">
+			Une erreur est survenue lors du chargement de vos informations de compte.
+			Veuillez vous déconnecter et vous reconnecter.
+		</UAlert>
+
+		<div
+			class="flex flex-col justify-between gap-4 lg:flex-row lg:items-center"
+		>
+			<UUser
+				v-if="!error"
+				:name="currentUser?.user.name"
+				:description="currentUser?.user.email"
+				size="2xl"
+			/>
+			<UButton
+				color="error"
+				variant="soft"
+				class="size-fit"
+				@click="handleLogout"
+			>
+				Se déconnecter
+			</UButton>
+		</div>
 	</div>
 </template>
