@@ -3,6 +3,10 @@ name: "Unit tests"
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
+  push:
+    branches:
+      - master
+      - develop
 
 jobs:
   UnitTests:

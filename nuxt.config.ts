@@ -1,10 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	app: {
-		rootAttrs: {
-			class: "min-h-dvh flex flex-col",
-		},
-	},
 	compatibilityDate: "2025-07-15",
 	devtools: { enabled: true },
 	modules: [
@@ -17,7 +12,7 @@ export default defineNuxtConfig({
 	icon: { localApiEndpoint: "/nuxt/api" },
 	runtimeConfig: {
 		public: {
-			baseApiURL: process.env.BASE_API_URL ?? "http://localhost:8080/api/v1",
+			baseApiURL: process.env.BASE_API_URL ?? "http://localhost:8000/api/",
 		},
 	},
 	css: ["~/assets/css/main.css"],
