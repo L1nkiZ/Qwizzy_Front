@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { fetchQuestions } from "~/services/admin/questions.service";
+import {
+	deleteQuestion,
+	fetchQuestions,
+} from "~/services/admin/questions.service";
 import type { Question } from "~/types/question.type";
 
 import type { DataTableColumn } from "~/types/table.type";
@@ -72,7 +75,13 @@ function openAddOrEditModal(question?: Question) {
 const deleteModal = overlay.create(AdminModalDelete);
 
 function openDeleteModal(question: Question) {
-	deleteModal.open({ name: question.question });
+	deleteModal.open({
+		name: question.question,
+		onDelete: async () => {
+			await deleteQuestion(question.id);
+			await refresh();
+		},
+	});
 }
 </script>
 

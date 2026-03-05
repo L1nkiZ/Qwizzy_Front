@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
 	name: string;
-	onDelete?: () => void;
+	onDelete: () => void;
 }
 const props = defineProps<Props>();
 </script>

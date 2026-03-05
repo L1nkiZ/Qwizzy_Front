@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { fetchCategories } from "~/services/admin/categories.service";
+import {
+	deleteCategory,
+	fetchCategories,
+} from "~/services/admin/categories.service";
 import type { Category } from "~/types/category.type";
 
 import type { DataTableColumn } from "~/types/table.type";
@@ -39,7 +42,13 @@ function openAddOrEditModal(category?: Category) {
 const deleteModal = overlay.create(AdminModalDelete);
 
 function openDeleteModal(category: Category) {
-	deleteModal.open({ name: category.name });
+	deleteModal.open({
+		name: category.name,
+		onDelete: async () => {
+			await deleteCategory(category.id);
+			await refresh();
+		},
+	});
 }
 </script>
 

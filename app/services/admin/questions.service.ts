@@ -50,3 +50,14 @@ export function updateQuestion(id: number, payload: UpdateQuestion) {
 		body: payload,
 	});
 }
+
+/**
+ * Supprime une question existante
+ * @param id ID de la question à supprimer
+ * @returns Promise contenant un message et une éventuelle erreur
+ */
+export function deleteQuestion(id: number) {
+	return useNuxtApp().$apiFetch(`/questions/${id}`, {
+		method: "DELETE",
+	});
+}
