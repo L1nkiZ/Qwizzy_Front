@@ -60,7 +60,8 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 					: undefined,
 			); // Cookie valable pendant 30 jours si "Remember me" est coché, sinon cookie de session
 
-			userTokenCookie.value = response;
+			userTokenCookie.value = response.token;
+
 			navigateTo("/");
 		})
 		.catch((error) => {

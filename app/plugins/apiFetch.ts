@@ -1,5 +1,4 @@
 export default defineNuxtPlugin(() => {
-	// const { session } = useUserSession();
 	const {
 		public: { baseApiURL, nginx, docker },
 	} = useRuntimeConfig();
@@ -13,6 +12,27 @@ export default defineNuxtPlugin(() => {
 
 	const apiFetch = $fetch.create({
 		baseURL: baseUrl,
+		onRequest({ options }) {
+			if (!options) return;
+			if (!options.headers) options.headers = {} as Record<string, string>;
+			// Do not overwrite an existing Authorization header
+			if (options.headers["Authorization"] || options.headers["authorization"])
+				return;
+
+			// Determine whether current interface is admin or front user
+			const route = useRoute();
+			const isAdmin =
+				typeof route.path === "string" && route.path.startsWith("/admin");
+
+			const preferredCookieName = isAdmin
+				? "adminTokenCookie"
+				: "userTokenCookie";
+
+			const preferredCookie = useCookie(preferredCookieName);
+			const token = preferredCookie.value;
+
+			if (token) options.headers.set("Authorization", `Bearer ${token}`);
+		},
 	});
 
 	// Expose to useNuxtApp().$apiFetch
