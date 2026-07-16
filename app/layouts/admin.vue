@@ -55,7 +55,11 @@ const open = ref(false);
 		<template #title>Qwizzy - Admin</template>
 		<UNavigationMenu :items="headerItems" />
 		<template #right>
-			<UDashboardSearchButton :collapsed="!isDesktop" @click="open = true" />
+			<UDashboardSearchButton
+				:collapsed="!isDesktop"
+				:variant="isDesktop ? 'outline' : 'ghost'"
+				@click="open = true"
+			/>
 			<UButton
 				icon="i-lucide-user"
 				color="neutral"
