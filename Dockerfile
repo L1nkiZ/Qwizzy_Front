@@ -1,5 +1,8 @@
 FROM node:24-alpine AS base
 
+# Install required system packages for native dependencies and git-based package resolution
+RUN apk add --no-cache git
+
 # Loading pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -15,7 +18,7 @@ EXPOSE 3000
 FROM base AS development
 
 # Copy package files first for better caching
-COPY package.json pnpm-lock.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -30,7 +33,7 @@ CMD ["pnpm", "dev"]
 FROM base AS production
 
 # Copy package files first for better caching
-COPY package.json pnpm-lock.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
