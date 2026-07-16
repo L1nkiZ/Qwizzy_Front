@@ -6,6 +6,7 @@ RUN apk add --no-cache git
 # Loading pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+ENV CI=true
 RUN corepack enable
 
 # Set the working directory
